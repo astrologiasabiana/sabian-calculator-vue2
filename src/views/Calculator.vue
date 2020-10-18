@@ -1,0 +1,416 @@
+<template>
+  <div>
+    <div v-if="$route.name.match(/^calculator/)" id="res_date_time_wrap">
+      <p class="title sp-none">{{ $t('common.left_nav.data') }}</p>
+      <div id="res_date_time_wrap_sp">
+        <a id="res_date_time" class="res_date_time" @click="click_res_date_time">{{datetime_view.n}}</a>
+        <a id="res_date_time_p" class="res_date_time" @click="click_res_date_time" v-if="is_partner">{{ datetime_view.p}}</a>
+        <a id="res_date_time_f" class="res_date_time" @click="click_res_date_time" v-if="is_forecast">{{datetime_view.f}}</a>
+      </div>
+      <div id="res_mode_wrap">
+        <p class="title sp-none">{{ $t('common.left_nav.mode') }}</p>
+        <router-link :to="{name:'calculator_setting', query: $route.query}">
+          <p id="res_mode">
+            <span class="pc-none">HELIO</span>
+            <span class="sp-none">{{ $t('setting.astronomical_model.heliocentric') }}</span>
+          </p>
+        </router-link>
+      </div>
+    </div>
+
+    <article id="calculator_article" class="calculator" @click="click_article">
+      <router-view :r="result"></router-view>
+    </article>
+
+    <dl v-if="$route.name.match(/^calculator/)" id="set_datetime" class="set_param none">
+      <div id="set_datetime_inner">
+        <button id="close" @click="click_close">
+          <div></div>
+          <div></div>
+        </button>
+
+        <dt>{{ $t('calculator.set_datetime.year_month_day') }}</dt>
+        <dd><input id="date" type="date" v-model="input.date"></dd>
+        <dt>{{ $t('calculator.set_datetime.hour_minute') }}</dt>
+        <dd>
+        <input id="time" type="time" v-model="input.time" onblur="onBlurTime('time')"><br>
+        <span><input type="checkbox" id="unknown_time" class="unknown_time" v-model="input.unknown" @change="change_unknown_time">{{ $t('calculator.set_datetime.unknown_time') }}</span>
+        </dd>
+        <dt>{{ $t('calculator.set_datetime.timezone') }}</dt>
+        <dd>
+        <select id="timezone" class="timezone" v-model="input.timezone">
+          <option v-for="(list, l) in timezone_list" :key="l" :value="list.val">{{list.timezone}}{{list.city}}</option>
+        </select>
+        </dd>
+        <dt>{{ $t('calculator.set_datetime.summertime') }}</dt>
+        <dd class="radio_wrap">
+          <div><input type="radio" value="1" class="summertime" name="summertime" id="summertime_yes" v-model="input.summertime"><span class="summertime">{{ $t('calculator.set_datetime.yes') }}</span></div>
+          <div><input type="radio" value="0" class="summertime" name="summertime" id="summertime_no" v-model="input.summertime"><span class="summertime">{{ $t('calculator.set_datetime.no') }}</span></div>
+        </dd>
+
+        <!-- パートナー -->
+        <div class="input_wrap" id="set_datetime_partner">
+          <h2 class="title">{{ $t('calculator.set_datetime.partner') }}</h2>
+
+          <dt>{{ $t('calculator.set_datetime.year_month_day') }}</dt>
+          <dd><input id="date_p" type="date" v-model="input.date_p"></dd>
+          <dt>{{ $t('calculator.set_datetime.hour_minute') }}</dt>
+          <dd>
+          <input id="time_p" type="time" v-model="input.time_p"><br>
+          <span><input type="checkbox" id="unknown_time_p" class="unknown_time" v-model="input.unknown_p" @change="change_unknown_time">{{ $t('calculator.set_datetime.unknown_time') }}</span>
+          </dd>
+          <dt>{{ $t('calculator.set_datetime.timezone') }}</dt>
+          <dd>
+          <select id="timezone_p" class="timezone" v-model="input.timezone_p">
+            <option v-for="(list, l) in timezone_list" :key="l" :value="list.val">{{list.timezone}}{{list.city}}</option>
+          </select>
+          </dd>
+          <dt>{{ $t('calculator.set_datetime.summertime') }}</dt>
+          <dd class="radio_wrap">
+            <div><input type="radio" value="1" class="summertime_p" name="summertime_p" id="summertime_yes_p" v-model="input.summertime_p"><span class="summertime">{{ $t('calculator.set_datetime.yes') }}</span></div>
+            <div><input type="radio" value="0" class="summertime_p" name="summertime_p" id="summertime_no_p" v-model="input.summertime_p"><span class="summertime">{{ $t('calculator.set_datetime.no') }}</span></div>
+          </dd>
+        </div>
+
+        <!-- トランジットー -->
+        <div class="input_wrap" id="set_datetime_forecast">
+          <h2 class="title">{{ $t('calculator.set_datetime.forecast') }}</h2>
+          <p>{{ $t('calculator.set_datetime.forecast_text') }}</p>
+
+          <dt>{{ $t('calculator.set_datetime.year_month_day') }}</dt>
+          <dd><input id="date_f" type="date" v-model="input.date_f"></dd>
+        </div>
+
+        <button id="get_planet_position" @click="click_get_planet_position">{{ $t('calculator.set_datetime.calculate') }}</button>
+        <button id="replace_main_parnter" @click="click_replace_main_partner" v-if="is_partner">{{ $t('calculator.set_datetime.replace') }}</button>
+      </div>
+    </dl>
+  </div>
+</template>
+
+<script>
+import Mixin from '@/components/Common'
+import define from '@/assets/js/define'
+import planet_list from '@/assets/yml/planet.yml'
+export default {
+  name: 'Calculator',
+  mixins:[Mixin],
+  components: {
+    //HomeHeader
+  },
+  data(){
+    this.$route.query.n = this.adjustDatetimeQuery(this.$route.query.n)
+    this.$route.query.p = this.adjustDatetimeQuery(this.$route.query.p)
+    this.$route.query.f = this.adjustDatetimeQuery(this.$route.query.f)
+
+    this.set_dateitime_to_pluto()
+
+    return {
+      result: this.get_result(),
+      is_partner: null,
+      is_forecast: null,
+      datetime_view: this.get_datetime_view(this.$route),
+      input: this.get_input(this.$route),
+      timezone_list : [
+        {val:-12, timezone:'UTC -12:00', city:''},
+        {val:-11.5, timezone:'UTC -11:30', city:''},
+        {val:-11, timezone:'UTC -11:00', city:''},
+        {val:-10.5, timezone:'UTC -10:30', city:''},
+        {val:-10, timezone:'UTC -10:00', city:' (Honolulu)'},
+        {val:-9.5, timezone:'UTC -09:30', city:''},
+        {val:-9, timezone:'UTC -09:00', city:' (Anchorage)'},
+        {val:-8.5, timezone:'UTC -08:30', city:''},
+        {val:-8, timezone:'UTC -08:00', city:' (Los Angeles, Vancouver)'},
+        {val:-7.5, timezone:'UTC -07:30', city:''},
+        {val:-7, timezone:'UTC -07:00', city:' (Denver, Calgary)'},
+        {val:-6.5, timezone:'UTC -06:30', city:''},
+        {val:-6, timezone:'UTC -06:00', city:' (Chicago, Mexico City)'},
+        {val:-5.5, timezone:'UTC -05:30', city:''},
+        {val:-5, timezone:'UTC -05:00', city:' (New York, Detroit)'},
+        {val:-4.5, timezone:'UTC -04:30', city:''},
+        {val:-4, timezone:'UTC -04:00', city:''},
+        {val:-3.5, timezone:'UTC -03:30', city:''},
+        {val:-3, timezone:'UTC -03:00', city:' (Rio)'},
+        {val:-2.5, timezone:'UTC -02:30', city:''},
+        {val:-2, timezone:'UTC -02:00', city:''},
+        {val:-1.5, timezone:'UTC -01:30', city:''},
+        {val:-1, timezone:'UTC -01:00', city:''},
+        {val:-0.5, timezone:'UTC +00:30', city:''},
+        {val:0, timezone:'UTC +00:00', city:' (London)'},
+        {val:0.5, timezone:'UTC +00:30', city:''},
+        {val:1, timezone:'UTC +01:00', city:' (Berlin, Paris, Rome)'},
+        {val:1.5, timezone:'UTC +01:30', city:''},
+        {val:2, timezone:'UTC +02:00', city:' (Cape Town, Athens, Jerusalem)'},
+        {val:2.5, timezone:'UTC +02:30', city:''},
+        {val:3, timezone:'UTC +03:00', city:' (Moscow)'},
+        {val:3.5, timezone:'UTC +03:30', city:''},
+        {val:4, timezone:'UTC +04:00', city:' (Dubai)'},
+        {val:4.5, timezone:'UTC +04:30', city:''},
+        {val:5, timezone:'UTC +05:00', city:''},
+        {val:5.5, timezone:'UTC +05:30', city:' (Mumbai, New Delhi)'},
+        {val:6, timezone:'UTC +06:00', city:''},
+        {val:6.5, timezone:'UTC +06:30', city:''},
+        {val:7, timezone:'UTC +07:00', city:''},
+        {val:7.5, timezone:'UTC +07:30', city:''},
+        {val:8, timezone:'UTC +08:00', city:' (Perth, Singapore, Beijing)'},
+        {val:8.5, timezone:'UTC +08:30', city:''},
+        {val:9, timezone:'UTC +09:00', city:' (Tokyo)'},
+        {val:9.5, timezone:'UTC +09:30', city:' (Darwin, Adelaide)'},
+        {val:10, timezone:'UTC +10:00', city:' (Sydney, Brisbane, Hobart)'},
+        {val:10.5, timezone:'UTC +10:30', city:''},
+        {val:11, timezone:'UTC +11:00', city:''},
+        {val:11.5, timezone:'UTC +11:30', city:''},
+        {val:12, timezone:'UTC +12:00', city:' (Auckland)'},
+        {val:12.5, timezone:'UTC +12:30', city:''},
+        {val:13, timezone:'UTC +13:00', city:''},
+        {val:13.5, timezone:'UTC +13:30', city:''},
+        {val:14, timezone:'UTC +14:00', city:''},
+      ],
+
+
+    }
+  },
+  created(){
+    //this.setAstronomicalModel()
+    this.set_default_cookie()
+    this.set_result()
+  },
+  mounted(){
+    const to = this.$route
+    this.input = this.get_input(to)
+
+    this.set_partner(to)
+    this.set_forecast(to)
+    this.change_unknown_time()
+
+  },
+  watch:{
+    '$route': function(to){
+      this.set_partner(to)
+      this.set_forecast(to)
+      this.set_datetime_view(to, this.datetime_view)
+      this.set_result()
+    }
+  },
+  methods:{
+    adjustDatetimeQuery(datetime_query){
+      if(this.checkDatetimeQuery(datetime_query)) return datetime_query
+
+      const current_dt = new Date()
+      return current_dt.toStr('yyyyMMddHHmm') + current_dt.getTimezoneStr() + current_dt.getSummerWinter()
+    },
+
+    click_article: function(){
+      this.hide_set_datetime()
+    },
+
+    click_close(){
+      this.hide_set_datetime()
+    },
+
+    click_get_planet_position(){
+      this.hide_set_datetime()
+
+      const query = this.get_new_query_from_inputbox()
+
+      this.set_datetime_view(this.$route, this.datetime_view)
+
+      this.$router.push({query: query})
+
+      this.set_dateitime_to_pluto()
+
+      this.set_result()
+    },
+
+    click_replace_main_partner(){
+      var _date = this.$$('#date').value;
+      var _time = this.$$('#time').value;
+      var _unknown = this.$$('#unknown_time').checked;
+      var _timezone = this.$$('#timezone').value;
+      var _summertime = this.$$('#summertime_yes').checked;
+      this.$$('#date').value = this.$$('#date_p').value;
+      this.$$('#time').value = this.$$('#time_p').value;
+      this.$$('#unknown_time').checked = this.$$('#unknown_time_p').checked;
+      this.$$('#timezone').value = this.$$('#timezone_p').value;
+      if(this.$$('#summertime_yes_p').checked) this.$$('#summertime_yes').checked = true;
+      else this.$$('#summertime_no').checked = true;
+      this.$$('#summertime_yes').value = this.$$('#summertime_yes_p').value;
+      this.$$('#date_p').value = _date;
+      this.$$('#time_p').value = _time;
+      this.$$('#unknown_time_p').checked = _unknown;
+      this.$$('#timezone_p').value = _timezone;
+      if(_summertime) this.$$('#summertime_yes_p').checked = true;
+      else this.$$('#summertime_no_p').checked = true;
+    },
+
+    click_res_date_time(){
+      this.toggle_set_datetime()
+    },
+
+    change_unknown_time: function(){
+      if(this.$$("#unknown_time")){
+        if(this.$$("#unknown_time").checked){
+          this.$$('#time').disabled = true;
+        }
+        else{
+          this.$$('#time').disabled = false;
+        }
+      }
+
+      if(this.$$("#unknown_time_p")){
+        if(this.$$("#unknown_time_p").checked){
+          this.$$('#time_p').disabled = true;
+        }
+        else{
+          this.$$('#time_p').disabled = false;
+        }
+      }
+    },
+
+    get_datetime_view(to){
+      if(!to) return
+      return {
+        n: this.changeDatetimeQueryFormat(to.query.n, "TEXT"),
+        p: this.changeDatetimeQueryFormat(to.query.p, "TEXT"),
+        f: this.changeDatetimeQueryFormat(to.query.f, "TEXT_DATE"),
+      }
+    },
+
+    get_input(to){
+      return {
+        date: this.changeDatetimeQueryFormat(to.query.n, "yyyy-MM-dd"),
+        time: this.changeDatetimeQueryFormat(to.query.n, "HH:mm"),
+        timezone: this.changeDatetimeQueryFormat(to.query.n, "timezone") - this.changeDatetimeQueryFormat(to.query.n, "summertime_flg"),
+        summertime: this.changeDatetimeQueryFormat(to.query.n, "summertime_flg"),
+        unknown: this.changeDatetimeQueryFormat(to.query.n, "unknown_flg"),
+        date_p: this.changeDatetimeQueryFormat(to.query.p, "yyyy-MM-dd"),
+        time_p: this.changeDatetimeQueryFormat(to.query.p, "HH:mm"),
+        timezone_p: this.changeDatetimeQueryFormat(to.query.p, "timezone") - this.changeDatetimeQueryFormat(to.query.p, "summertime_flg"),
+        summertime_p: this.changeDatetimeQueryFormat(to.query.p, "summertime_flg"),
+        unknown_p: this.changeDatetimeQueryFormat(to.query.p, "unknown_flg"),
+        date_f: this.changeDatetimeQueryFormat(to.query.f, "yyyy-MM-dd"),
+      }
+    },
+
+    get_new_query_from_inputbox(){
+      let query = {}
+      query.n = this.changeDatetimeToQuery(
+        this.$$('#date').value,
+        this.$$('#time').value,
+        this.$$('#timezone').value,
+        this.$$('#summertime_yes').checked,
+        this.$$("#unknown_time").checked
+      )
+      if(this.$$('#date_p')){
+        query.p = this.changeDatetimeToQuery(
+          this.$$('#date_p').value,
+          this.$$('#time_p').value,
+          this.$$('#timezone_p').value,
+          this.$$('#summertime_yes_p').checked,
+          this.$$("#unknown_time_p").checked
+        )
+      }
+      if(this.$$('#date_f')){
+        query.f = this.changeDatetimeToQuery(
+          this.$$('#date_f').value,
+          '00:00',
+          0,
+          false,
+          0
+        )
+      }
+      return query
+    },
+
+    get_result(){
+      //cookie
+      if(this.n.pl.getPlanets() && this.main_planet_list){
+        this.setImgCookie(this.n.pl.getPlanets()[this.main_planet_list[0]].longitude)
+      }
+      
+      return {
+        n:{
+          pl: this.n.pl,
+          query: this.$route.query.n,
+          planets: this.addPlanetsInfo( this.n.pl.getPlanets() ),
+          is_unknown: this.changeDatetimeQueryFormat(this.$route.query.n, 'unknown_flg'),
+        },
+        p:{
+          query: this.$route.query.p,
+        },
+        f:{
+          query: this.$route.query.f,
+        },
+        current_planet_list: this.current_planet_list,
+        main_planet_list: this.main_planet_list,
+        planet_define_list: planet_list,
+        helio: this.$route.query.helio ? 1 : 0,
+      }
+    },
+
+    set_datetime_view(to, view){
+      if(!to) return
+      return Object.assign(view, this.get_datetime_view(to))
+    },
+
+    set_dateitime_to_pluto(){
+      if(!this.n) this.n = {}
+      if(!this.p) this.p = {}
+      if(!this.f) this.f = {}
+
+      if(!this.n.pl) this.n.pl = new window.Pluto()
+
+      this.n.pl.setDateArray(this.changeDatetimeQueryFormat(this.$route.query.n, 'array'))
+    },
+
+    set_default_cookie(){
+      this.$cookies.config(60 * 60 * 24 * 365, '')
+      if(!this.$cookies.get('orb_midpoint')) this.$cookies.set('orb_midpoint', define.cookie.orb_midpoint)
+      if(!this.$cookies.get('orb_harmonics')) this.$cookies.set('orb_harmonics', define.cookie.orb_harmonics)
+      if(!this.$cookies.get('harmonics_range')) this.$cookies.set('harmonics_range', 0)
+    },
+
+    set_forecast(to){
+      const service = to.name.replace('calculator_', '')
+
+      if(service.isForecast()){
+        this.is_forecast = true
+        this.$$('html').classList.add('forecast');
+      }
+      else{
+        this.is_forecast = false
+        this.$$('html').classList.remove('forecast');
+      }
+    },
+
+    set_partner(to){
+      const service = to.name.replace('calculator_', '')
+
+      if(service.isPartner()){
+        this.is_partner = true
+        this.$$('html').classList.add('partner');
+      }
+      else{
+        this.is_partner = false
+        this.$$('html').classList.remove('partner');
+      }
+    },
+
+    set_planets(to, view){
+      if(!to) return
+      view.n = this.changeDatetimeQueryFormat(to.query.n, "TEXT")
+      view.p = this.changeDatetimeQueryFormat(to.query.p, "TEXT")
+      view.f = this.changeDatetimeQueryFormat(to.query.f, "TEXT_DATE")
+    },
+
+    set_result(){
+      this.setAstronomicalModel()
+      this.result = this.get_result()
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+@import url("../assets/css/calculator.scss");
+</style>

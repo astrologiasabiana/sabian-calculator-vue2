@@ -1,0 +1,26 @@
+find_yourself:
+  list:
+    simple:
+      url: calculator
+      img: /img/geometry/sun_72_yellow_01.svg
+    midpoint:
+      url: calculator_midpoint
+      img: /img/geometry/midpoint_red_01.svg
+    harmonics:
+      url: calculator_harmonics
+      img: /img/geometry/sign_red_yellow_01.svg
+forecast:
+  list:
+    progression:
+      url: calculator_progression
+      img: /img/geometry/progress_01.svg
+    solar_arc:
+      url: calculator_solar_arc
+      img: /img/geometry/solar_arc_01.svg
+relationship:
+  list:
+    composite:
+      url: calculator_composite
+      img: /img/geometry/composite_01.svg
+
+

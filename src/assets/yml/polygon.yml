@@ -1,0 +1,24 @@
+cross:
+  logo: /img/geometry/grand_cross_red_01.svg
+  bg_img: /img/geometry/grand_cross_red_02.svg
+  number: 4
+pentagram:
+  logo: /img/geometry/pentagram_yellow_01.svg
+  bg_img: /img/geometry/pentagram_yellow_01.svg
+  number: 5
+hexagram:
+  logo: /img/geometry/hexagram_yellow_01.svg
+  bg_img: /img/geometry/hexagram_yellow_01.svg
+  number: 6
+septagram:
+  logo: /img/geometry/septagram_rainbow_01.svg
+  bg_img: /img/geometry/septagram_rainbow_01.svg
+  number: 7
+octagram:
+  logo: /img/geometry/eight_mum_yellow_01.svg
+  bg_img: /img/geometry/eight_mum_yellow_01.svg
+  number: 8
+nonagram:
+  logo: /img/geometry/nonagram_blue_01.svg
+  bg_img: /img/geometry/nonagram_blue_01.svg
+  number: 9
