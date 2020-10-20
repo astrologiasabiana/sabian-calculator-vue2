@@ -101,6 +101,26 @@
                                     ]
                                 ]
                             }
+                        },
+                        {
+                            "Sid": "sabian-calculator-meta-change",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E52LOWSKRPH5G"
+                            },
+                            "Action": "s3:GetObject",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:s3:::",
+                                        {
+                                            "Ref": "S3Bucket"
+                                        },
+                                        "/*"
+                                    ]
+                                ]
+                            }
                         }
                     ]
                 },
