@@ -61,22 +61,22 @@ const routes = [
     component:() => import('@/views/Symbols.vue'),
     children: [
       {
-        path: window.lang_prefix + "/",
+        path:  "/",
         name: 'symbols',
         component:() => import('@/views/SymbolsSigns.vue'),
       },
       {
-        path: window.lang_prefix + ":sign",
+        path: ":sign",
         name: 'symbols_sign',
         component:() => import('@/views/SymbolsDegrees.vue'),
       },
       {
-        path: window.lang_prefix + ":sign/:degree",
+        path: ":sign/:degree",
         name: 'symbols_degree',
         component:() => import('@/views/SymbolsSignDegree.vue'),
       },
       {
-        path: window.lang_prefix + ":sign/:degree/:minute",
+        path: ":sign/:degree/:minute",
         name: 'symbols_degree_minute',
         component:() => import('@/views/SymbolsSignDegree.vue'),
       },
