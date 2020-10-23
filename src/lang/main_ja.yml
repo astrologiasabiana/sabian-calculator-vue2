@@ -48,8 +48,14 @@ planet_list:
   TrueNode:
     name: ノード(True)
     description: 魂の願望
+  MeanNode:
+    name: ノード(Mean)
+    description: 魂の願望
   TrueLilith:
     name: リリス(True)
+    description: 魅力・秘めごと
+  MeanLilith:
+    name: リリス(Mean)
     description: 魅力・秘めごと
 aspect_list:
   Conjunction:
@@ -182,6 +188,12 @@ setting:
     harmonics:
       title: ハーモニクス
       description: ハーモニックチャート上のコンジャンクション
+  true_mean:
+    title: トゥルー/ミーン
+    true_node: トゥルー・ノード
+    mean_node: ミーン・ノード
+    true_lilith: トゥルー・リリス
+    mean_lilith: ミーン・リリス
   astronomical_model:
     title: 地球中心/太陽中心
     geocentric: ジオセントリック

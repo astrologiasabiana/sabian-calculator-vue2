@@ -18,6 +18,8 @@ const define = {
   cookie:{
     orb_midpoint: 1.5,
     orb_harmonics: 5,
+    true_mean_node: 0,
+    true_mean_lilith: 0,
   },
   year_milisecond: 365.2425 * 24 * 60 * 60 * 1000,
 }

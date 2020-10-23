@@ -48,8 +48,14 @@ planet_list:
   TrueNode:
     name: True Node
     description: Desire of the soul
+  MeanNode:
+    name: Mean Node
+    description: Desire of the soul
   TrueLilith:
     name: True Lilith
+    description: Charm and secrecy
+  MeanLilith:
+    name: Mean Lilith
     description: Charm and secrecy
 aspect_list:
   Conjunction:
@@ -182,6 +188,12 @@ setting:
     harmonics:
       title: Harmonics
       description: For conjunctions in the harmonic charts
+  true_mean:
+    title: True/Mean
+    true_node: True Node
+    mean_node: Mean Node
+    true_lilith: True Lilith
+    mean_lilith: Mean Lilith
   astronomical_model:
     title: Astronomical Model
     geocentric: Geocentric

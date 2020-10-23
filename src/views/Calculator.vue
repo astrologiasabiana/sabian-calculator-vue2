@@ -367,6 +367,8 @@ export default {
       this.$cookies.config(60 * 60 * 24 * 365, '')
       if(!this.$cookies.get('orb_midpoint')) this.$cookies.set('orb_midpoint', define.cookie.orb_midpoint)
       if(!this.$cookies.get('orb_harmonics')) this.$cookies.set('orb_harmonics', define.cookie.orb_harmonics)
+      if(!this.$cookies.get('true_mean_node')) this.$cookies.set('true_mean_node', define.cookie.true_mean_node)
+      if(!this.$cookies.get('true_mean_lilith')) this.$cookies.set('true_mean_lilith', define.cookie.true_mean_lilith)
       if(!this.$cookies.get('harmonics_range')) this.$cookies.set('harmonics_range', 0)
     },
 

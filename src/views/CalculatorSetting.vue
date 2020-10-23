@@ -23,6 +23,20 @@
         </tr>
       </table>
 
+      <h2>{{ $t('setting.true_mean.title') }}</h2>
+      <div>
+        <input type="radio" value="0" class="" name="true_mean_node" id="true_node" v-model="true_mean_node" checked @change="change_true_mean_node(0)">
+        <span class="">{{ $t('setting.true_mean.true_node') }}</span>
+        <input type="radio" value="1" class="" name="true_mean_node" id="mean_node" v-model="true_mean_node" @change="change_true_mean_node(1)">
+        <span class="">{{ $t('setting.true_mean.mean_node') }}</span>
+      </div>
+      <div>
+        <input type="radio" value="0" class="" name="true_mean_lilith" id="true_lilith" v-model="true_mean_lilith" checked @change="change_true_mean_lilith(0)">
+        <span class="">{{ $t('setting.true_mean.true_lilith') }}</span>
+        <input type="radio" value="1" class="" name="true_mean_lilith" id="mean_lilith" v-model="true_mean_lilith" @change="change_true_mean_lilith(1)">
+        <span class="">{{ $t('setting.true_mean.mean_lilith') }}</span>
+      </div>
+
       <h2>{{ $t('setting.astronomical_model.title') }}</h2>
       <div>
         <input type="radio" value="0" class="" name="astronomical_model" id="astronomical_model_geocentric" checked @change="change_astronomical_model">
@@ -30,6 +44,7 @@
         <input type="radio" value="1" class="" name="astronomical_model" id="astronomical_model_heliocentric" v-model="helio"  @change="change_astronomical_model">
         <span class="">{{ $t('setting.astronomical_model.heliocentric') }}</span>
       </div>
+
       <h2>{{ $t('setting.language.title') }}</h2>
       <div>
         <a onclick="toLang('')">English</a> |
@@ -53,6 +68,8 @@ export default {
     return {
       orb_midpoint: this.$cookies.get('orb_midpoint'),
       orb_harmonics: this.$cookies.get('orb_harmonics'),
+      true_mean_node: this.$cookies.get('true_mean_node'),
+      true_mean_lilith: this.$cookies.get('true_mean_lilith'),
       helio: this.$route.query.helio ? 1 : 0,
     }
   },
@@ -99,6 +116,16 @@ export default {
 
     change_orb_harmonics(e){
       this.$cookies.set('orb_harmonics', e.target.value)
+    },
+
+    change_true_mean_node(e){
+      this.$cookies.set('true_mean_node', e)
+      this.setAstronomicalModel()
+    },
+
+    change_true_mean_lilith(e){
+      this.$cookies.set('true_mean_lilith', e)
+      this.setAstronomicalModel()
     },
 
     change_astronomical_model(e){

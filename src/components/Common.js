@@ -444,7 +444,11 @@ export default{
         pl_list.forEach((i)=>{
           if(this[i] && this[i].pl) this[i].pl.unsetHeliocentric();
         })
-        this.current_planet_list = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", "TrueNode", "TrueLilith"]
+
+        let true_mean_node = this.$cookies.get('true_mean_node') == 1 ? 'MeanNode': 'TrueNode'
+        let true_mean_lilith = this.$cookies.get('true_mean_lilith') == 1 ? 'MeanLilith': 'TrueLilith'
+
+        this.current_planet_list = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", true_mean_node, true_mean_lilith]
         this.main_planet_list = ["Sun", "Moon"]
         this.$$('html').classList.remove('heliocentric');
       }
