@@ -32,15 +32,22 @@ export default{
       return (this.int() % 30)+'˚'+((this*60).int() % 60).zeroPadding(2)+'′';
     }
 
-    Number.prototype.getImg = function(){
+    Number.prototype.getImg = function(size){
+      let img_base_url = define.IMG_BASE_URL
+      switch(size){
+        case 'full':
+          img_base_url = define.FULL_SIZE_IMG_BASE_URL
+          break
+      }
+
       let _this = this % 360
       const sign = ((_this / 30).int() + 1).zeroPadding(2);
       const degree = ((_this % 30).int() + 1).zeroPadding(2);
-      return define.IMG_BASE_URL + sign + '/' + degree + '.jpg';
+      return img_base_url + sign + '/' + degree + '.jpg';
     }
 
-    String.prototype.getImg = function(){
-      return parseFloat(this).getImg()
+    String.prototype.getImg = function(size){
+      return parseFloat(this).getImg(size)
     }
 
     Number.prototype.getMinute = function(){

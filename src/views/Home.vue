@@ -43,7 +43,7 @@ export default {
       current_sun_position: this.$t('home.top.current_sun_position').replace('{sign}', this.getSign(this.current.sun_longitude)).replace('{degree}', this.current.sun_longitude.getDegree()),
       sabian: this.$t('sabian['+this.current.sun_longitude.int()+']'),
       until_next: this.$t('home.top.until_next').replace('{hour_minute}', this.getUntilNext(this.current.sun_longitude, this.current.planets.Sun.longitudeSpeed).hour_minute).replace('{hour}', this.getUntilNext(this.current.sun_longitude, this.current.planets.Sun.longitudeSpeed).hour).replace('{minute}', this.getUntilNext(this.current.sun_longitude, this.current.planets.Sun.longitudeSpeed).minute),
-      img: 'url(' + this.current.sun_longitude.getImg() + ')',
+      img: 'url(' + this.current.sun_longitude.getImg('full') + ')',
 
     }
   },
