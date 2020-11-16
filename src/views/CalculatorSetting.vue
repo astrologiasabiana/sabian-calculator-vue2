@@ -46,16 +46,15 @@
       </div>
 
       <h2>{{ $t('setting.language.title') }}</h2>
-      <div>
-        <a onclick="toLang('')">English</a> |
-        <a onclick="toLang('/ja')">日本語</a>
-      </div>
+
+      <ComponentLang></ComponentLang>
     </section>
   </div>
 </template>
 
 <script>
 import Mixin from '@/components/Common'
+import ComponentLang from '@/components/ComponentLang'
 export default {
   name: 'CalculatorSetting',
   mixins:[Mixin],
@@ -63,6 +62,7 @@ export default {
     r: Object,
   },
   components: {
+    ComponentLang,
   },
   data(){
     return {

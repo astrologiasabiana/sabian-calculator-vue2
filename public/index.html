@@ -19,9 +19,21 @@
         window.lang = 'ja'
         window.lang_prefix = '/ja'
       }
+      else if(location.pathname.match(/^\/fr/)){
+        window.lang = 'fr'
+        window.lang_prefix = '/fr'
+      }
       else{
         window.lang = 'en'
         window.lang_prefix = ''
+      }
+
+      window.toLang = function (lang){
+        let pathname = window.location.pathname
+              .replace('/ja', '')
+              .replace('/fr', '')
+        if(lang + pathname == '') pathname = '/'
+        window.location.href = lang + pathname + window.location.search
       }
     </script>
   </head>

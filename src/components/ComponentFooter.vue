@@ -1,8 +1,7 @@
 <template>
   <footer>
     <p>
-      <a onclick="toLang('')">English</a> |
-      <a onclick="toLang('/ja')">日本語</a>
+      <ComponentLang></ComponentLang>
     </p>
     <p class="sns">
       <a href="https://www.instagram.com/rubyfmzk/" target="_blank">
@@ -21,8 +20,12 @@
 </template>
 
 <script>
+import ComponentLang from '@/components/ComponentLang'
 export default {
   name: 'ComponentFooter',
+  components: {
+    ComponentLang,
+  },
   data(){
     return {
     }

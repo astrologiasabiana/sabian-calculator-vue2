@@ -14,8 +14,7 @@
     <article id="home_article">
       <section id="home_lang">
         <p>
-          <a onclick="toLang('')">English</a> |
-          <a onclick="toLang('/ja')">日本語</a>
+          <ComponentLang></ComponentLang>
         </p>
       </section>
       <section id="home_about">
@@ -28,6 +27,7 @@
 
 <script>
 import Mixin from '@/components/Common'
+import ComponentLang from '@/components/ComponentLang'
 
 export default {
   name: 'Home',
@@ -36,7 +36,7 @@ export default {
     current: Object,
   },
   components: {
-    //HomeHeader
+    ComponentLang
   },
   data () {
     return {

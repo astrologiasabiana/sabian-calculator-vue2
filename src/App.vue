@@ -20,7 +20,6 @@ import ComponentCalculatorList from '@/components/ComponentCalculatorList.vue'
 import ComponentFooter from '@/components/ComponentFooter.vue'
 import Mixin from '@/components/Common'
 
-
 export default {
   mixins:[Mixin],
   components: {
@@ -37,6 +36,7 @@ export default {
       path: {
         en: '/',
         ja: '/ja',
+        fr: '/fr',
       },
       current: this.current,
     }

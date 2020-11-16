@@ -1,8 +1,11 @@
 <template>
   <header id="header">
+    
     <h1>
-      <img class="logo" src="/img/logo/rainbow_star.svg">
-      <span v-if="$route.name==='home'">Sabian Calculator</span>
+      <router-link :to="{name:'home', query: $route.query}">
+        <img class="logo" src="/img/logo/rainbow_star.svg">
+        <span v-if="$route.name==='home'">Sabian Calculator</span>
+      </router-link>
 
       <div v-if="$route.name && $route.name.match(/^symbols/)" id="symbol_search">
         <select id="symbol_search_sign" v-model="sign">
@@ -15,6 +18,7 @@
         <button class="search" @click="click_symbol_search"></button>
       </div>
     </h1>
+
 
     <div v-if="$route.name && $route.name.match(/^symbols/)" id="nav_sing_wrap">
       <router-link :to="{name:'symbols_sign', query: $route.query, params: {sign: sign.key }}" v-for="(sign, key) in sign_list" :key="key">

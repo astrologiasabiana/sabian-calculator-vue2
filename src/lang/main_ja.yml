@@ -98,13 +98,11 @@ common:
     mode: 設定
     calculators: 計算機
   page_nav:
-    home: HOME
     calculator: 計算機
     symbols: シンボル一覧
     setting: 設定
   share:
     normal: ページをシェア
-    calculator: ページをシェア<br class="pc-none">(※日時情報はシェアされません)
     copied: URLをコピーしました
   not_found: お探しのページは見つかりませんでした。
   twitter: rubyfmzk

@@ -176,12 +176,6 @@ export default{
       return (zero + this).substr(-digit);
     }
 
-    window.toLang = function (lang){
-      let pathname = window.location.pathname.replace('/ja', '')
-      if(lang + pathname == '') pathname = '/'
-      window.location.href = lang + pathname + window.location.search
-    }
-
   },
   mounted(){
 

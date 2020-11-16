@@ -1,1 +1,221 @@
-- bonsoir
+sign_list:
+  - BÉLIER
+  - TAUREAU
+  - GÉMEAUX
+  - CANCER
+  - LION
+  - VIERGE
+  - BALANCE
+  - SCORPION
+  - SAGITTAIRE
+  - CAPRICORNE
+  - VERSEAU
+  - POISSONS
+planet_list:
+  Sun:
+    name: Soleil
+    description: Objectifs et enjeux de la vie
+  Earth:
+    name: Terre
+    description: Raisons de l'incarnation sur cette planète Terre
+  Moon:
+    name: Lune
+    description: Inconscience et besoins, en particulier pour la sécurité
+  Mercury: 
+    name: Mercure
+    description: Intelligence et communication
+  Venus:
+    name: Venus
+    description: Amour et sens de la beauté
+  Mars:
+    name: Mars
+    description: Passion et compétitivité
+  Jupiter:
+    name: Jupiter
+    description: Voie pour élargir les possibilités
+  Saturn:
+    name: Saturne
+    description: Responsabilité sociale et ordre
+  Uranus:
+    name: Uranus
+    description: La sagesse ultime pour briser le statu quo
+  Neptune:
+    name: Neptune
+    description: L'occasion de vivre et de comprendre les mystères
+  Pluto:
+    name: Pluto
+    description: L'occasion de faire évoluer l'âme et de provoquer un changement profond de soi
+  TrueNode:
+    name: Nœud vraie
+    description: Désir de l'âme
+  MeanNode:
+    name: Nœud moyenne
+    description: Désir de l'âme
+  TrueLilith:
+    name: Lilith vraie
+    description: Charme et secret
+  MeanLilith:
+    name: Lilith moyenne
+    description: Charme et secret
+aspect_list:
+  Conjunction:
+    name: Conjunction
+  SemiSextile:
+    name: Semi-Sextile
+  Novile:
+    name: Novile
+  SemiSquare:
+    name: Semi-Square
+  Septile:
+    name: Septile
+  Sextile: 
+    name: Sextile
+  Quintile:
+    name: Quintile
+  Bi-Novile:
+    name: Bi-Novile
+  Square:
+    name: Square
+  BiSeptile:
+    name: Bi-Septile
+  Trine: 
+    name: Trine
+  Sesquiquadrate:
+    name: Sesquiquadrate
+  BiQuintile:
+    name: Bi-Quintil
+  Quincunx:
+    name: Quincunx
+  TriSeptile:
+    name: Tri-Septile
+  QuadraNovile:
+    name: Quadra-Novile
+  Opposition:
+    name: Opposition
+common:
+  left_nav:
+    data: DONNÉE
+    mode: MODE
+    calculators: CALCULATRICE
+  page_nav:
+    calculator: CALCULATRICE
+    symbols: SYMBOLES
+    setting: RÉGLAGES
+  share:
+    normal: Partagez cette page
+    copied: Copied URL
+  not_found: Page not found.
+  twitter: RubyFumizki
+home:
+  top:
+    current_sun_position: 'Le soleil est maintenant dans {sign} {degree}'
+    current_sabian_symbol: 'Actuel Symbole Sabian:'
+    until_next: "{hour_minute} heures jusqu'au suivant"
+  about:
+    title: À propos Symboles Sabians
+    description: <p>Alors que l'astrologie traditionnelle divise le zodiaque en 12 parties de 30 degrés (chacune comme une tranche de pizza), nous pouvons examiner plus en détail avec 360 Symboles Sabians. Chaque degré se voit attribuer une image, son "Symbole Sabian", qui est une description d’une image ayant une interprétation de sa signification cachée et métaphorique. Par exemple, le symbole sabien de la Balance 1° est "Parmi une collection de spécimens magnifiques, un papillon épinglé étale la beauté de ses ailes", ce qui peut signifier s’exprimer de manière particulièrement claire; il représente un aspect sociable et équilibré de la Balance.</p><p>Symboles Sabians sont des images ou des métaphores, dérivées de manière clairvoyante par Elsie Wheeler en 1925, qui ont été proposées et interprétées par Marc Edmund Jones, et aussi par Dane Rudhyar qui les a réinterprétés sur la base de ses idées esthétiques.</p>
+calculator:
+  datetime_view: '{day}.{month}.{year} {hour}:{minute}'
+  date_view: '{day}.{month}.{year}'
+  set_datetime:
+    year_month_day: Date
+    hour_minute: Heure locale
+    unknown_time: heure inconnue
+    timezone: Fuseau horaire
+    summertime: Heure d'été?
+    yes: Oui
+    no: Non
+    calculate: Calculer
+    replace: Principal ⇄ Partenaire
+    partner: Partenaire
+    forecast: Date de prévision
+    forecast_text: Calcul à 0:00 UTC
+  midpoint: 
+    midpoint_with: Point médian avec {planet}
+  harmonics:
+    harmonic: Harmonic
+    range: Harmonics Number Range
+    not_found: Pas trouvé. Veuillez développer l'orbe dans le réglage.
+  month:
+    - jan
+    - fév
+    - mar
+    - Apr
+    - mai
+    - juin
+    - jui
+    - août
+    - sept
+    - oct
+    - nov
+    - déc
+  menu:
+    find_yourself:
+      title: Exploration de vous-même
+      list:
+        simple: 
+          title: Calculatrice Sabian
+          description: Si l'heure de naissance n'est pas exacte, cela montre l'éventail des possibilités
+        midpoint:
+          title: Point médian
+          description: Liste des Symboles Sabians du point médian
+        harmonics:
+          title: Résonance harmonique
+          description: Liste des conjonctions dans le horoscope harmoniques
+    forecast:
+      title: Prévisions
+      list:
+        progression:
+          title: Progression
+          description: Symboles Sabians de progression horoscope 
+        solar_arc:
+          title: Arc solaire
+          description: Symboles Sabians de l'arc solaire horoscope
+    relationship:
+      title: Relation
+      list:
+        composite:
+          title: Composite
+          description: Symboles Sabians Liste de la horoscope composite
+setting:
+  orb:
+    title: Orbes
+    midpoint: 
+      title: Point médian
+      description: Pour les aspects entre les points médians et vos planètes
+    harmonics:
+      title: Harmonique
+      description: Pour les conjonctions dans le horoscope harmoniques
+  true_mean:
+    title: Vraie/Moyenne
+    true_node: Nœud vraie
+    mean_node: Nœud moyenne
+    true_lilith: Lilith vraie
+    mean_lilith: Lilith moyenne
+  astronomical_model:
+    title: Modèle astronomique
+    geocentric: Géocentrique
+    heliocentric: Héliocentrique
+  language:
+    title: Language
+polygon_list:
+  cross:
+    name: Sabian Cross
+    description: opposition and square
+  pentagram:
+    name: Pentagram
+    description: quintile and bi-quintile
+  hexagram:
+    name: Hexagram
+    description: multiples of sextile
+  septagram:
+    name: Septagram
+    description: multiples of septile
+  octagram:
+    name: Octagram
+    description: multiples of semi-square
+  nonagram:
+    name: Nonagram
+    description: multiples of novile
+
+

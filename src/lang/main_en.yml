@@ -98,13 +98,11 @@ common:
     mode: MODE
     calculators: CALCULATORS
   page_nav:
-    home: HOME
     calculator: CALCULATOR
     symbols: SYMBOLS
     setting: SETTINGS
   share:
     normal: Share this page
-    calculator: Share this page<br class="pc-none"> (※Date and time information will not be shared.) 
     copied: Copied URL
   not_found: Page not found.
   twitter: RubyFumizki
@@ -115,7 +113,7 @@ home:
     until_next: '{hour_minute} hours until the next'
   about:
     title: About Sabian Symbols
-    description: <p>Whereas mainstream Astrology divides the zodiac into 12 parts of 30 degrees (each like a slice of pizza), we can look into greater detail with 360 Sabian Symbols. Each degree is assigned an image, its ‘Sabian Symbol’, which is a description of a picture having an interpretation of its hidden, metaphorical meaning. For example, the Sabian Symbol of Libra 1° is ‘A butterfly made perfect by a dart through it’, which can mean to express yourself particularly clearly; it represents a sociable, balanced aspect of Libra.</p><p>Sabian Symbols are images or metaphors, clairvoyantly derived by Elsie Wheeler in 1925, which were proposed and interpreted by Marc Edmund Jones, and also by Dane Rudhyar who reinterpreted them on the basis of his aesthetic insights.</p>
+    description: <p>Whereas mainstream Astrology divides the zodiac into 12 parts of 30 degrees (each like a slice of pizza), we can look into greater detail with 360 Sabian Symbols. Each degree is assigned an image, its "Sabian Symbol", which is a description of a picture having an interpretation of its hidden, metaphorical meaning. For example, the Sabian Symbol of Libra 1° is ‘A butterfly made perfect by a dart through it’, which can mean to express yourself particularly clearly; it represents a sociable, balanced aspect of Libra.</p><p>Sabian Symbols are images or metaphors, clairvoyantly derived by Elsie Wheeler in 1925, which were proposed and interpreted by Marc Edmund Jones, and also by Dane Rudhyar who reinterpreted them on the basis of his aesthetic insights.</p>
 calculator:
   datetime_view: '{day}.{month}.{year} {hour}:{minute}'
   date_view: '{day}.{month}.{year}'
@@ -131,7 +129,7 @@ calculator:
     replace: Main ⇄ Partner
     partner: Partner
     forecast: Forecast date
-    forecast_text: Calculation at 0:00 AM UTC
+    forecast_text: Calculation at 0:00 UTC
   midpoint: 
     midpoint_with: Midpoint with {planet}
   harmonics:
