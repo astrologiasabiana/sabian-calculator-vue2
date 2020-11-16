@@ -6,7 +6,7 @@
         <img :src="p.img" :data-minute="p.symbol_minute">
       </router-link>
       <div class="after_img_area">
-        <p>{{p.name}}<img class="planet_icon" :src="p.icon">{{p.sign_degree}}</p>
+        <p>{{p.name}}<img class="planet_icon" :src="p.icon">{{p.sign_degree}} ({{p.degree_minute}})</p>
         <p class="symbol_name">{{p.sabian}}</p>
         <p class="word">{{p.sabian_description}}</p>
       </div>
@@ -17,7 +17,7 @@
         <img :src="pp.img" :data-minute="pp.symbol_minute">
       </router-link>
       <div class="after_img_area">
-        <p>{{pp.name}}<img class="planet_icon" :src="pp.icon">{{pp.sign_degree}}</p>
+        <p>{{pp.name}}<img class="planet_icon" :src="pp.icon">{{pp.sign_degree}} ({{pp.degree_minute}})</p>
         <p class="symbol_name">{{pp.sabian}}</p>
         <p class="word">{{pp.sabian_description}}</p>
       </div>

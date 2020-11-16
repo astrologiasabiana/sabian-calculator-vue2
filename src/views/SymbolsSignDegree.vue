@@ -3,6 +3,7 @@
     <section id="title">
       <p class="degree_name">
         <span class="sign">{{r.sign_degree.sign_degree}}</span>
+        <span v-if="r.sign_degree.is_int"><br>({{r.sign_degree.param.degree - 1}}˚ - {{r.sign_degree.param.degree}}˚)</span>
         <span v-if="!r.sign_degree.is_int"><br>({{r.sign_degree.degree_minute}})</span>
       </p>
       <h1><span class="sabian">{{r.sign_degree.sabian}}</span></h1>

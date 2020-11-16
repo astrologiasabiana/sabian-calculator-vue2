@@ -16,7 +16,7 @@
           </router-link>
 
           <div class="after_img_area">
-            <p class="sign_degree">{{item.sign_degree}}</p>
+            <p class="sign_degree">{{item.sign_degree}} ({{item.param.degree - 1}}˚-{{item.param.degree}}˚)</p>
             <p class="symbol_name">{{item.sabian}}</p>
             <p class="word">{{item.sabian_description}}</p>
           </div>
@@ -31,7 +31,7 @@
       </router-link>
       
       <div class="after_img_area">
-        <p class="sign_degree">{{r.list[0].sign_degree}}</p>
+        <p class="sign_degree">{{r.list[0].sign_degree}} ({{r.list[0].param.degree - 1}}˚-{{r.list[0].param.degree}}˚)</p>
         <p class="symbol_name">{{r.list[0].sabian}}</p>
         <p class="word">{{r.list[0].sabian_description}}</p>
       </div>
