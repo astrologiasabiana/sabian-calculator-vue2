@@ -365,6 +365,11 @@ html:not(.forecast) #set_datetime_forecast{
   .res_date_time{    
   }
 }
+@media (max-width: 767px){
+  .res_date_time{
+    width: 70%;
+  }
+}
 #res_date_time_wrap{
   z-index: 99999;
 }
