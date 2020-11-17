@@ -16,6 +16,6 @@ export default {
 
 </script>
 
-<style>
+<style scoped lang="scss">
 @import url("../assets/css/symbols.scss");
 </style>

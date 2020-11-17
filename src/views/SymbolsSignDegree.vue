@@ -11,6 +11,21 @@
       <img class="sabian_img" :src="r.sign_degree.img">
     </section>
 
+    <section id="five_degrees_group">
+      <h2>{{ $t('symbol_list.five_degrees_group.title') }}</h2>
+      <p class="title_description">{{ $t('symbol_list.five_degrees_group.description') }}</p>
+      <div class="res_img_wrap">
+        <router-link v-for="(symbol, i) in r.five_degrees_group" :key="i" :to="{name:'symbols_degree', query: $route.query, params: {sign: symbol.param.sign, degree: symbol.param.degree }}" class="res_img" :class="'res_img'+(i+1)">
+          <img :src="symbol.img">
+        </router-link>
+      </div>
+      <div class="res_text_wrap">
+        <router-link v-for="(symbol, i) in r.five_degrees_group" :key="i" :to="{name:'symbols_degree', query: $route.query, params: {sign: symbol.param.sign, degree: symbol.param.degree }}">
+          <p :class="symbol.param.sign">{{symbol.sign_degree}}<br><span class="symbol_name">{{symbol.sabian}}</span></p>
+        </router-link>
+      </div>
+    </section>
+
     <section v-for="(pol, key) in polygon_list" :key="key" :id="key" class="polygon">
       <h2>{{ $t('polygon_list.'+key+'.name') }}</h2>
       <p class="title_description">{{ $t('polygon_list.'+key+'.description') }}</p>
@@ -83,7 +98,8 @@ export default {
         this.$router.push({name: 'symbols'})
       }
 
-      this.r.longitude = this.$route.params.sign.getSignNumber() * 30 + this.$route.params.degree.int() - 1
+      const longitude_int = this.$route.params.sign.getSignNumber() * 30 + this.$route.params.degree.int() - 1
+      this.r.longitude = longitude_int
       let is_int = true
 
       if(this.$route.params.minute && 
@@ -94,7 +110,13 @@ export default {
       }
 
       this.r.sign_degree = this.getDegreeInfo(this.r.longitude, is_int)
-      
+
+      //5 degrees group
+      this.r.five_degrees_group = []
+      const five_degrees_first = (longitude_int / 5).int() * 5
+      for(var n=0; n<5; n++){
+        this.r.five_degrees_group.push(this.getDegreeInfo(five_degrees_first + n, true))
+      }
     },
   }
 }

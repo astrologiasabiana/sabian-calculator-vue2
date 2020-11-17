@@ -280,6 +280,7 @@
 #symbols_degree_article .title_description{
   margin: 14px 0 0 0;
   font-size: 14px;
+  line-height: 1.3em;
 }
 
 @media (min-width: 768px){
@@ -330,6 +331,33 @@
     margin: 6px 0 40px;
   }
 }
+
+
+
+/*
+ * 5度グループ
+ */
+section#five_degrees_group {
+  padding-bottom: 100px;
+  margin-bottom: 100px;
+  border-bottom: solid 1px #434441;
+}
+
+#five_degrees_group .res_img{
+  width: 31%;
+  padding: 0 0.5vw 1vw;
+}
+
+#five_degrees_group .res_img_wrap{
+  margin-top: 50px;
+}
+
+#five_degrees_group .res_text_wrap{
+  margin: 20vw 0 0;
+  padding: 0;
+}
+
+
 
 section.polygon{
 /*  min-height: 200vw;*/

@@ -217,5 +217,10 @@ polygon_list:
   nonagram:
     name: Nonagram
     description: multiples of novile
+symbol_list:
+  five_degrees_group:
+    title: 5 degrees group
+    description: contiguous 5 degrees Sabian Symbols make themselves obvious
+
 
 
