@@ -273,6 +273,19 @@
     margin-top: 40px;
 }
 
+#symbols_degree_article #anchor {
+    padding-top: 0;
+    padding-bottom: 100px;
+    margin-bottom: 100px;
+    border-bottom: solid 1px #434441;
+}
+
+#symbols_degree_article #anchor a{
+    vertical-align: inherit;
+    display: inline-block;
+    margin: 0 8px;
+}
+
 #symbols_degree_article .degree_name{
   margin: 0 auto 20px;
 }
@@ -282,13 +295,16 @@
   font-size: 14px;
   line-height: 1.3em;
 }
+#symbols_degree_article section{
+  padding-top: 70px;
+}
 
 @media (min-width: 768px){
   #symbols_degree_article{
     padding-top: 100px;
   }
   #symbols_degree_article section{
-    padding: 0 20px;
+    padding: 20px 20px 0;
   }
 }
 @media (min-width: 1080px){
@@ -1177,3 +1193,15 @@ right: 1vw;
     left: 327px;
   }
 }
+
+#antiscion .res_img{
+    width: 46%;
+    margin: 50px 1%;
+}
+
+#antiscion .res_text_wrap{
+  min-height: auto;
+}
+
+
+

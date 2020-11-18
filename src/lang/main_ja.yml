@@ -272,3 +272,14 @@ midpoint_meaning:
     Pluto: 世界的な変革
   Neptune:
     Pluto: サイキック能力
+symbol_list:
+  five_degrees_group:
+    title: 5度グループ
+    description: contiguous 5 degrees Sabian Symbols make themselves obvious
+  antiscion:
+    title: アンティション
+    description: Equal distance relationship from Cancer 0˚ (Capricorn 0˚)
+  contra_antiscion:
+    title: コントラアンティション
+    description: Equal distance relationship from Aries 0˚ (Libra 0˚)
+

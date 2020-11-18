@@ -11,6 +11,12 @@
       <img class="sabian_img" :src="r.sign_degree.img">
     </section>
 
+    <section id="anchor">
+      <a href="#five_degrees_group">{{ $t('symbol_list.five_degrees_group.title') }}</a> 
+      <a v-for="(pol, key) in polygon_list" :key="key" :href="'#'+key">{{ $t('polygon_list.'+key+'.name') }}</a>
+      <a href="#antiscion">{{ $t('symbol_list.antiscion.title') }}/{{ $t('symbol_list.contra_antiscion.title') }}</a>
+    </section>
+
     <section id="five_degrees_group">
       <h2>{{ $t('symbol_list.five_degrees_group.title') }}</h2>
       <p class="title_description">{{ $t('symbol_list.five_degrees_group.description') }}</p>
@@ -40,6 +46,46 @@
       <div class="res_text_wrap">
         <router-link v-for="(symbol, i) in polygon_sign_degree[key]" :key="i" :to="{name:'symbols_degree', query: $route.query, params: {sign: symbol.param.sign, degree: symbol.param.degree }}">
           <p :class="symbol.param.sign">{{symbol.sign_degree}}<br><span class="symbol_name">{{symbol.sabian}}</span></p>
+        </router-link>
+      </div>
+    </section>
+
+    <section id="antiscion">
+      <h2>{{ $t('symbol_list.antiscion.title') }}</h2>
+      <p class="title_description">{{ $t('symbol_list.antiscion.description') }}</p>
+      <div class="res_img_wrap">
+        <a class="res_img">
+          <img :src="r.sign_degree.img">
+        </a>
+        <router-link :to="{name:'symbols_degree', query: $route.query, params: {sign: r.antiscion.param.sign, degree: r.antiscion.param.degree }}" class="res_img">
+          <img :src="r.antiscion.img">
+        </router-link>
+      </div>
+      <div class="res_text_wrap">
+        <a>
+          <p :class="r.sign_degree.param.sign">{{r.sign_degree.sign_degree}}<br><span class="symbol_name">{{r.sign_degree.sabian}}</span></p>
+        </a>
+        <router-link :to="{name:'symbols_degree', query: $route.query, params: {sign: r.antiscion.param.sign, degree: r.antiscion.param.degree }}">
+          <p :class="r.antiscion.param.sign">{{r.antiscion.sign_degree}}<br><span class="symbol_name">{{r.antiscion.sabian}}</span></p>
+        </router-link>
+      </div>
+
+      <h2>{{ $t('symbol_list.contra_antiscion.title') }}</h2>
+      <p class="title_description">{{ $t('symbol_list.contra_antiscion.description') }}</p>
+      <div class="res_img_wrap">
+        <a class="res_img">
+          <img :src="r.sign_degree.img">
+        </a>
+        <router-link :to="{name:'symbols_degree', query: $route.query, params: {sign: r.contra_antiscion.param.sign, degree: r.contra_antiscion.param.degree }}" class="res_img">
+          <img :src="r.contra_antiscion.img">
+        </router-link>
+      </div>
+      <div class="res_text_wrap">
+        <a>
+          <p :class="r.sign_degree.param.sign">{{r.sign_degree.sign_degree}}<br><span class="symbol_name">{{r.sign_degree.sabian}}</span></p>
+        </a>
+        <router-link :to="{name:'symbols_degree', query: $route.query, params: {sign: r.contra_antiscion.param.sign, degree: r.contra_antiscion.param.degree }}">
+          <p :class="r.contra_antiscion.param.sign">{{r.contra_antiscion.sign_degree}}<br><span class="symbol_name">{{r.contra_antiscion.sabian}}</span></p>
         </router-link>
       </div>
     </section>
@@ -91,7 +137,6 @@ export default {
       })
     },
     setSignDegree(){
-
       if(this.$route.params.sign.getSignNumber() === null ||
         this.$route.params.degree.int() < 1 ||
         this.$route.params.degree.int() > 30){
@@ -117,6 +162,13 @@ export default {
       for(var n=0; n<5; n++){
         this.r.five_degrees_group.push(this.getDegreeInfo(five_degrees_first + n, true))
       }
+
+      //antiscion
+      const antiscion_degree = (359 - (longitude_int - 90) + 90) % 360
+      this.r.antiscion = this.getDegreeInfo(antiscion_degree)
+      const contra_antiscion_degree = 359 - longitude_int
+      this.r.contra_antiscion = this.getDegreeInfo(contra_antiscion_degree)
+console.log(this.r.antiscion, this.r.contra_antiscion)
     },
   }
 }
