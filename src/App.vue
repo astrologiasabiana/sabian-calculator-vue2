@@ -51,6 +51,12 @@ export default {
     this.current.planets = current_pl.getPlanets()
     this.current.sun_longitude = this.current.planets.Sun.longitude
 
+    if(window.innerWidth <=767){
+      window.addEventListener('scroll', this.onScroll);
+    }
+  },
+  mounted(){
+
   },
   watch: {
     '$route': function(to, from){
@@ -69,6 +75,28 @@ export default {
   methods:{
     toAnchor: function(hash){
       this.$scrollTo(hash)
+    },
+    onScroll(){
+
+      if(this.scrollY && window.scrollY > 200){
+        if(window.scrollY > this.scrollY){
+          if(this.$$('header')) this.$$('header').style.display = 'none'
+          if(this.$$('#page_nav')) this.$$('#page_nav').style.display = 'none'
+          if(this.$$('#res_date_time')) this.$$('#res_date_time').style.display = 'none'
+        }
+        else{
+          if(this.$$('header')) this.$$('header').style.display = 'block'
+          if(this.$$('#page_nav')) this.$$('#page_nav').style.display = 'block'
+          if(this.$$('#res_date_time')) this.$$('#res_date_time').style.display = 'block'
+        }
+      }
+      else{
+        if(this.$$('header')) this.$$('header').style.display = 'block'
+        if(this.$$('#page_nav')) this.$$('#page_nav').style.display = 'block'
+        if(this.$$('#res_date_time')) this.$$('#res_date_time').style.display = 'block'
+      }
+
+      this.scrollY = window.scrollY
     },
   }
 }
