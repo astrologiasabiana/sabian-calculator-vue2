@@ -8,7 +8,7 @@
       </p>
       <h1><span class="sabian">{{r.sign_degree.sabian}}</span></h1>
 <!--      <p class="word">{{symbols.degree.this_degree.sabian_description}}</p>-->
-      <img class="sabian_img" :src="r.sign_degree.img">
+      <img class="sabian_img" :src="r.sign_degree.img" :alt="r.sign_degree.alt">
     </section>
 
     <section id="anchor">
@@ -22,7 +22,7 @@
       <p class="title_description">{{ $t('symbol_list.five_degrees_group.description') }}</p>
       <div class="res_img_wrap">
         <router-link v-for="(symbol, i) in r.five_degrees_group" :key="i" :to="{name:'symbols_degree', query: $route.query, params: {sign: symbol.param.sign, degree: symbol.param.degree }}" class="res_img" :class="'res_img'+(i+1)">
-          <img :src="symbol.img">
+          <img :src="symbol.img" :alt="symbol.alt">
         </router-link>
       </div>
       <div class="res_text_wrap">
@@ -39,7 +39,7 @@
         <img class="bg_img" :src="pol.bg_img">
         <div class="res_img_wrap">
           <router-link v-for="(symbol, i) in polygon_sign_degree[key]" :key="i" :to="{name:'symbols_degree', query: $route.query, params: {sign: symbol.param.sign, degree: symbol.param.degree }}" class="res_img" :class="'res_img'+(i+1)">
-            <img :src="symbol.img">
+            <img :src="symbol.img" :alt="symbol.alt">
           </router-link>
         </div>
       </div>
@@ -55,10 +55,10 @@
       <p class="title_description">{{ $t('symbol_list.antiscion.description') }}</p>
       <div class="res_img_wrap">
         <a class="res_img">
-          <img :src="r.sign_degree.img">
+          <img :src="r.sign_degree.img" :alt="r.sign_degree.alt">
         </a>
         <router-link :to="{name:'symbols_degree', query: $route.query, params: {sign: r.antiscion.param.sign, degree: r.antiscion.param.degree }}" class="res_img">
-          <img :src="r.antiscion.img">
+          <img :src="r.antiscion.img" :alt="r.antiscion.alt">
         </router-link>
       </div>
       <div class="res_text_wrap">
@@ -74,10 +74,10 @@
       <p class="title_description">{{ $t('symbol_list.contra_antiscion.description') }}</p>
       <div class="res_img_wrap">
         <a class="res_img">
-          <img :src="r.sign_degree.img">
+          <img :src="r.sign_degree.img" :alt="r.sign_degree.alt">
         </a>
         <router-link :to="{name:'symbols_degree', query: $route.query, params: {sign: r.contra_antiscion.param.sign, degree: r.contra_antiscion.param.degree }}" class="res_img">
-          <img :src="r.contra_antiscion.img">
+          <img :src="r.contra_antiscion.img" :alt="r.contra_antiscion.alt">
         </router-link>
       </div>
       <div class="res_text_wrap">

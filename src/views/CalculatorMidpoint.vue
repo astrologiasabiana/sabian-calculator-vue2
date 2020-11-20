@@ -29,7 +29,7 @@
               <p class="word">{{p.sabian_description}}</p>
             </div>
             <router-link :to="{name:'symbols_degree_minute', query: $route.query, params: {sign: p.param.sign, degree: p.param.degree, minute: p.param.minute }}">
-              <img :src="p.img" :data-minute="p.symbol_minute">
+              <img :src="p.img" :data-minute="p.symbol_minute" :alt="p.alt">
             </router-link>
 
             <div class="after_img_area" v-if="p.aspects.length > 0">

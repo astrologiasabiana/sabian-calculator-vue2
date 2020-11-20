@@ -306,6 +306,7 @@ export default{
       }
       planet.is_int = is_int;
       planet.symbol_minute = (longitude * 60 % 60).int();
+      planet.alt = this.$t('common.sabian_symbol') + ' ' + planet.sign_degree + ': ' + planet.sabian
 
       return planet
     },

@@ -93,6 +93,7 @@ aspect_list:
   Opposition:
     name: オポジション
 common:
+  sabian_symbol: サビアンシンボル
   left_nav:
     data: 日時
     mode: 設定

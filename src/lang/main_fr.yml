@@ -93,6 +93,7 @@ aspect_list:
   Opposition:
     name: Opposition
 common:
+  sabian_symbol: Symbole Sabian
   left_nav:
     data: DONNÉE
     mode: MODE

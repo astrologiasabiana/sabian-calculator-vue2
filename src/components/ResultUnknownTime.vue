@@ -12,7 +12,7 @@
             <p class="just_before_img">{{item.hour_minute}}〜</p>
           </div>
           <router-link :to="{name:'symbols_degree', query: $route.query, params: {sign: item.param.sign, degree: item.param.degree }}">
-            <img :src="item.img" @click="click_change_symbol_minute">
+            <img :src="item.img" @click="click_change_symbol_minute" :alt="item.alt">
           </router-link>
 
           <div class="after_img_area">
@@ -27,7 +27,7 @@
     <div v-else>
       <div class="before_img_area"></div>
       <router-link :to="{name:'symbols_degree', query: $route.query, params: {sign: r.list[0].param.sign, degree: r.list[0].param.degree }}">
-        <img class="" :src="r.list[0].img">
+        <img class="" :src="r.list[0].img" :alt="r.list[0].alt">
       </router-link>
       
       <div class="after_img_area">

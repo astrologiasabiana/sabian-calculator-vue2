@@ -8,7 +8,7 @@
     <div class="before_img_area"></div>
 
     <router-link :to="{name:'symbols_degree_minute', query: $route.query, params: {sign: r.param.sign, degree: r.param.degree, minute: r.param.minute }}">
-      <img :src="r.img" :data-minute="r.symbol_minute">
+      <img :src="r.img" :data-minute="r.symbol_minute" :alt="r.alt">
     </router-link>
 
     <div class="after_img_area">

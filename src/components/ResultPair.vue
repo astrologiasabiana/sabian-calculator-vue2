@@ -3,7 +3,7 @@
 
     <div class="res_item">
       <router-link :to="{name:'symbols_degree', query: this.$route.query, params: {sign: p.param.sign, degree: p.param.degree, minute: p.param.minute }}">
-        <img :src="p.img" :data-minute="p.symbol_minute">
+        <img :src="p.img" :data-minute="p.symbol_minute" :alt="p.alt">
       </router-link>
       <div class="after_img_area">
         <p>{{p.name}}<img class="planet_icon" :src="p.icon">{{p.sign_degree}} ({{p.degree_minute}})</p>
@@ -14,7 +14,7 @@
 
     <div class="res_item">
       <router-link :to="{name:'symbols_degree', query: $route.query, params: {sign: pp.param.sign, degree: pp.param.degree, minute: pp.param.minute }}">
-        <img :src="pp.img" :data-minute="pp.symbol_minute">
+        <img :src="pp.img" :data-minute="pp.symbol_minute" :alt="pp.alt">
       </router-link>
       <div class="after_img_area">
         <p>{{pp.name}}<img class="planet_icon" :src="pp.icon">{{pp.sign_degree}} ({{pp.degree_minute}})</p>
