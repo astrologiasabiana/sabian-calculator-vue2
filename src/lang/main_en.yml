@@ -57,6 +57,12 @@ planet_list:
   MeanLilith:
     name: Mean Lilith
     description: Charm and secrecy
+  Asc:
+    name: Ascendant
+    description: ''
+  Mc:
+    name: Medium Coeli
+    description: ''
 aspect_list:
   Conjunction:
     name: Conjunction
@@ -131,6 +137,12 @@ calculator:
     partner: Partner
     forecast: Forecast date
     forecast_text: Calculation at 0:00 UTC
+  set_location:
+    lat_lon: Latitude and Longitude
+    north: North
+    south: South
+    east: East
+    west: West
   midpoint: 
     midpoint_with: Midpoint with {planet}
   harmonics:

@@ -63,7 +63,6 @@ export default {
       let solar_arc = {}
       this.r.current_planet_list.forEach(p=>{
         solar_arc[p] = {longitude: this.r.n.pl.getPlanets()[p].longitude + diff}
-
       })
 
       solar_arc = this.addPlanetsInfo(solar_arc)

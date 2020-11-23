@@ -176,6 +176,10 @@ export default{
       return (zero + this).substr(-digit);
     }
 
+    String.prototype.zeroPadding = function(digit){
+      return this.int().zeroPadding(digit)
+    }
+
   },
   mounted(){
 
@@ -191,7 +195,7 @@ export default{
     },
 
 
-    addPlanetsInfo(planets){
+    addPlanetsInfo(planets, houses){
       if(!this.current_planet_list) this.setAstronomicalModel()
 
       if(!planets) planets = {}
@@ -204,6 +208,17 @@ export default{
           planets[p] = Object.assign(planets[p], this.getDegreeInfo(planets[p].longitude))
         }
       })
+
+      if(houses && houses[10]){
+        planets.Asc = {}
+        planets.Asc.longitude = houses[1]
+        planets.Asc = Object.assign(planets.Asc, this.getPlanetInfo('Asc'))
+        planets.Asc = Object.assign(planets.Asc, this.getDegreeInfo(houses[1]))
+        planets.Mc = {}
+        planets.Mc.longitude = houses[10]
+        planets.Mc = Object.assign(planets.Mc, this.getPlanetInfo('Mc'))
+        planets.Mc = Object.assign(planets.Mc, this.getDegreeInfo(houses[10]))
+      }
 
       return planets
     },
@@ -228,7 +243,7 @@ export default{
       switch(type){
         case "TEXT":
           if(unknown_time) return this.changeDatetimeQueryFormat(query, 'TEXT_DATE')
-          return this.$t('calculator.datetime_view').replace('{year}', year).replace('{month}', this.getMonth(month)).replace('{day}', day.int()).replace('{hour}', hour).replace('{minute}', minute);
+          return this.$t('calculator.datetime_view').replace('{year}', year).replace('{month}', this.getMonth(month)).replace('{day}', day.int()).replace('{hour}', hour).replace('{minute}', minute)
         case "TEXT_DATE":
           return this.$t('calculator.date_view').replace('{year}', year).replace('{month}', this.getMonth(month)).replace('{day}', day.int())
         case "yyyy-MM-dd": 
@@ -265,7 +280,59 @@ export default{
     },
 
     checkDatetimeQuery(datetime_query){
-      if(datetime_query && datetime_query.match(/([0-2][0-9]{3})(0[1-9]|1[0-2])([0-2]\d|3[01])(([01][0-9]|2[0-3])([0-5][0-9])|----)([EW][01][0-9][0-5][0-9])([SW])/)) return true
+      if(datetime_query && datetime_query.match(/^([0-2][0-9]{3})(0[1-9]|1[0-2])([0-2]\d|3[01])(([01][0-9]|2[0-3])([0-5][0-9])|----)([EW][01][0-9][0-5][0-9])([SW])$/)) return true
+      return false
+    },
+
+    changeLocationToQuery(lat_ns, lat_degree, lat_minute, lon_ew, lon_degree, lon_minute){
+      let res = ''
+
+      res += lat_ns === 'S' ? 'S' : 'N'
+      res += lat_degree.zeroPadding(2)
+      res += lat_minute.zeroPadding(2)
+      res += lon_ew === 'W' ? 'W' : 'E'
+      res += lon_degree.zeroPadding(3)
+      res += lon_minute.zeroPadding(2)
+
+      return res
+    },
+
+    changeLocationQueryFormat(query, type){
+      if(!this.checkLocationQuery(query)){
+        return false
+      }
+
+      const NS = query.slice(0, 1)
+      const lat_degree = query.slice(1, 3).int()
+      const lat_minute = query.slice(3, 5).int()
+      const EW = query.slice(5, 6)
+      const lon_degree = query.slice(6, 9).int()
+      const lon_minute = query.slice(9, 11).int()
+      const NS_plus_minus = NS === 'N' ? 1 : -1
+      const EW_plus_minus = EW === 'E' ? 1 : -1
+
+      switch(type){
+        case 'NS':
+          return NS
+        case 'lat_degree':
+          return lat_degree
+        case 'lat_minute':
+          return lat_minute
+        case 'EW':
+          return EW
+        case 'lon_degree':
+          return lon_degree
+        case 'lon_minute':
+          return lon_minute
+        case 'lat_num':
+          return NS_plus_minus * (lat_degree + lat_minute / 60)
+        case 'lon_num':
+          return EW_plus_minus * (lon_degree + lon_minute / 60)
+      }
+    },
+
+    checkLocationQuery(location_query){
+      if(location_query && location_query.match(/^[NS]\d{4}[EW]\d{5}$/)) return true
       return false
     },
 
@@ -451,6 +518,12 @@ export default{
         let true_mean_lilith = this.$cookies.get('true_mean_lilith') == 1 ? 'MeanLilith': 'TrueLilith'
 
         this.current_planet_list = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", true_mean_node, true_mean_lilith]
+
+        if(this.$route.query.n && !this.changeDatetimeQueryFormat(this.$route.query.n, 'unknown_flg')){
+          this.current_planet_list.push('Asc')
+          this.current_planet_list.push('Mc')
+        }
+
         this.main_planet_list = ["Sun", "Moon"]
         this.$$('html').classList.remove('heliocentric');
       }

@@ -70,3 +70,11 @@ MeanLilith:
   lower: lilith
   orbit: 8.8
   color: ceb6cb
+Asc:
+  key: Asc
+  lower: asc
+Mc:
+  key: Mc
+  lower: mc
+
+

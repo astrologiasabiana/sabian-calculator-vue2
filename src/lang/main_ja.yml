@@ -131,6 +131,12 @@ calculator:
     partner: パートナー
     forecast: 予測する日
     forecast_text: UTC(協定世界時)の午前0:00で計算します。
+  set_location:
+    lat_lon: 緯度経度
+    north: 北緯
+    south: 南緯
+    east: 東経
+    west: 西経
   midpoint: 
     midpoint_with: '{planet}との中間点'
   harmonics:

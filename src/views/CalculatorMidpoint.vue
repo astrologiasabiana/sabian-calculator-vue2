@@ -84,6 +84,7 @@ export default {
 
     getMidpoints(){
       let planets = this.r.n.planets
+
       this.r.base_planet = this.getBasePlanet()
       this.r.base_planet_info = Object.assign(planets, this.getPlanetInfo(this.r.base_planet))
 

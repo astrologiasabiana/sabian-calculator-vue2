@@ -55,6 +55,8 @@ export default {
 
       let composite = {}
       this.r.current_planet_list.forEach(p=>{
+        if(p === 'Asc' || p === 'Mc') return
+
         const longitude = this.getVectorAverage([this.r.n.pl.getPlanets()[p].longitude, this.r.p.pl.getPlanets()[p].longitude])
 
         composite[p] = {}

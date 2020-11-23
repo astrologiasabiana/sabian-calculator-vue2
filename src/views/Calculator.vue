@@ -31,22 +31,64 @@
 
         <dt>{{ $t('calculator.set_datetime.year_month_day') }}</dt>
         <dd><input id="date" type="date" v-model="input.date"></dd>
+
         <dt>{{ $t('calculator.set_datetime.hour_minute') }}</dt>
         <dd>
         <input id="time" type="time" v-model="input.time" onblur="onBlurTime('time')"><br>
         <span><input type="checkbox" id="unknown_time" class="unknown_time" v-model="input.unknown" @change="change_unknown_time">{{ $t('calculator.set_datetime.unknown_time') }}</span>
         </dd>
+
         <dt>{{ $t('calculator.set_datetime.timezone') }}</dt>
         <dd>
         <select id="timezone" class="timezone" v-model="input.timezone">
           <option v-for="(list, l) in timezone_list" :key="l" :value="list.val">{{list.timezone}}{{list.city}}</option>
         </select>
         </dd>
+
         <dt>{{ $t('calculator.set_datetime.summertime') }}</dt>
         <dd class="radio_wrap">
           <div><input type="radio" value="1" class="summertime" name="summertime" id="summertime_yes" v-model="input.summertime"><span class="summertime">{{ $t('calculator.set_datetime.yes') }}</span></div>
           <div><input type="radio" value="0" class="summertime" name="summertime" id="summertime_no" v-model="input.summertime"><span class="summertime">{{ $t('calculator.set_datetime.no') }}</span></div>
         </dd>
+
+        <div id="input_location">
+          <dt>{{ $t('calculator.set_location.lat_lon') }}</dt>
+          <dd>
+            <nobr>
+              <select id="lat_ns" v-model="input.lat_ns">
+                <option value="N">{{ $t('calculator.set_location.north') }}</option>
+                <option value="S">{{ $t('calculator.set_location.south') }}</option>
+              </select>
+
+              <select id="lat_degree" v-model="input.lat_degree">
+                <option v-for="n of 90" :key="n-1" :value="n-1">{{n-1}}</option>
+              </select>
+              <span>˚</span>
+
+              <select id="lat_minute" v-model="input.lat_minute">
+                <option v-for="n of 60" :key="n-1" :value="n-1">{{n-1}}</option>
+              </select>
+              <span>′</span>
+            </nobr>
+
+            <nobr>
+              <select id="lon_ew" v-model="input.lon_ew">
+                <option value="E">{{ $t('calculator.set_location.east') }}</option>
+                <option value="W">{{ $t('calculator.set_location.west') }}</option>
+              </select>
+
+              <select id="lon_degree" v-model="input.lon_degree">
+                <option v-for="n of 180" :key="n-1" :value="n-1">{{n-1}}</option>
+              </select>
+              <span>˚</span>
+
+              <select id="lon_minute" v-model="input.lon_minute">
+                <option v-for="n of 60" :key="n-1" :value="n-1">{{n-1}}</option>
+              </select>
+              <span>′</span>
+            </nobr>
+          </dd>
+        </div>
 
         <!-- パートナー -->
         <div class="input_wrap" id="set_datetime_partner">
@@ -54,17 +96,20 @@
 
           <dt>{{ $t('calculator.set_datetime.year_month_day') }}</dt>
           <dd><input id="date_p" type="date" v-model="input.date_p"></dd>
+
           <dt>{{ $t('calculator.set_datetime.hour_minute') }}</dt>
           <dd>
           <input id="time_p" type="time" v-model="input.time_p"><br>
           <span><input type="checkbox" id="unknown_time_p" class="unknown_time" v-model="input.unknown_p" @change="change_unknown_time">{{ $t('calculator.set_datetime.unknown_time') }}</span>
           </dd>
+
           <dt>{{ $t('calculator.set_datetime.timezone') }}</dt>
           <dd>
           <select id="timezone_p" class="timezone" v-model="input.timezone_p">
             <option v-for="(list, l) in timezone_list" :key="l" :value="list.val">{{list.timezone}}{{list.city}}</option>
           </select>
           </dd>
+
           <dt>{{ $t('calculator.set_datetime.summertime') }}</dt>
           <dd class="radio_wrap">
             <div><input type="radio" value="1" class="summertime_p" name="summertime_p" id="summertime_yes_p" v-model="input.summertime_p"><span class="summertime">{{ $t('calculator.set_datetime.yes') }}</span></div>
@@ -102,6 +147,7 @@ export default {
     this.$route.query.n = this.adjustDatetimeQuery(this.$route.query.n)
     this.$route.query.p = this.adjustDatetimeQuery(this.$route.query.p)
     this.$route.query.f = this.adjustDatetimeQuery(this.$route.query.f)
+    this.$route.query.nl = this.adjustLocationQuery(this.$route.query.nl)
 
     this.set_dateitime_to_pluto()
 
@@ -200,6 +246,12 @@ export default {
       return current_dt.toStr('yyyyMMddHHmm') + current_dt.getTimezoneStr() + current_dt.getSummerWinter()
     },
 
+    adjustLocationQuery(location_query){
+      if(this.checkLocationQuery(location_query)) return location_query
+
+      return 'N4500E09000'
+    },
+
     click_article: function(){
       this.hide_set_datetime()
     },
@@ -223,11 +275,11 @@ export default {
     },
 
     click_replace_main_partner(){
-      var _date = this.$$('#date').value;
-      var _time = this.$$('#time').value;
-      var _unknown = this.$$('#unknown_time').checked;
-      var _timezone = this.$$('#timezone').value;
-      var _summertime = this.$$('#summertime_yes').checked;
+      let _date = this.$$('#date').value;
+      let _time = this.$$('#time').value;
+      let _unknown = this.$$('#unknown_time').checked;
+      let _timezone = this.$$('#timezone').value;
+      let _summertime = this.$$('#summertime_yes').checked;
       this.$$('#date').value = this.$$('#date_p').value;
       this.$$('#time').value = this.$$('#time_p').value;
       this.$$('#unknown_time').checked = this.$$('#unknown_time_p').checked;
@@ -250,19 +302,23 @@ export default {
     change_unknown_time: function(){
       if(this.$$("#unknown_time")){
         if(this.$$("#unknown_time").checked){
-          this.$$('#time').disabled = true;
+          this.$$('#time').disabled = true
+
+          this.$$('#input_location').style.display = 'none'
         }
         else{
-          this.$$('#time').disabled = false;
+          this.$$('#time').disabled = false
+
+          this.$$('#input_location').style.display = 'block'
         }
       }
 
       if(this.$$("#unknown_time_p")){
         if(this.$$("#unknown_time_p").checked){
-          this.$$('#time_p').disabled = true;
+          this.$$('#time_p').disabled = true
         }
         else{
-          this.$$('#time_p').disabled = false;
+          this.$$('#time_p').disabled = false
         }
       }
     },
@@ -273,6 +329,7 @@ export default {
         n: this.changeDatetimeQueryFormat(to.query.n, "TEXT"),
         p: this.changeDatetimeQueryFormat(to.query.p, "TEXT"),
         f: this.changeDatetimeQueryFormat(to.query.f, "TEXT_DATE"),
+        //nl: this.changeLocationQueryFormat(to.query.nl, "TEXT"),
       }
     },
 
@@ -289,6 +346,12 @@ export default {
         summertime_p: this.changeDatetimeQueryFormat(to.query.p, "summertime_flg"),
         unknown_p: this.changeDatetimeQueryFormat(to.query.p, "unknown_flg"),
         date_f: this.changeDatetimeQueryFormat(to.query.f, "yyyy-MM-dd"),
+        lat_ns: this.changeLocationQueryFormat(to.query.nl, "NS"),
+        lat_degree: this.changeLocationQueryFormat(to.query.nl, "lat_degree"),
+        lat_minute: this.changeLocationQueryFormat(to.query.nl, "lat_minute"),
+        lon_ew: this.changeLocationQueryFormat(to.query.nl, "EW"),
+        lon_degree: this.changeLocationQueryFormat(to.query.nl, "lon_degree"),
+        lon_minute: this.changeLocationQueryFormat(to.query.nl, "lon_minute"),
       }
     },
 
@@ -319,6 +382,14 @@ export default {
           0
         )
       }
+      query.nl = this.changeLocationToQuery(
+        this.$$('#lat_ns').value,
+        this.$$('#lat_degree').value,
+        this.$$('#lat_minute').value,
+        this.$$('#lon_ew').value,
+        this.$$('#lon_degree').value,
+        this.$$('#lon_minute').value,
+      )
       return query
     },
 
@@ -326,13 +397,19 @@ export default {
       //cookie
       if(this.n.pl.getPlanets() && this.main_planet_list){
         this.setImgCookie(this.n.pl.getPlanets()[this.main_planet_list[0]].longitude)
+
+        if(this.$route.query.nl){
+          const lat = this.changeLocationQueryFormat(this.$route.query.nl, 'lat_num')
+          const lon = this.changeLocationQueryFormat(this.$route.query.nl, 'lon_num')
+          this.n.pl.setGeoPosition(lat, lon)
+        }
       }
       
       return {
         n:{
           pl: this.n.pl,
           query: this.$route.query.n,
-          planets: this.addPlanetsInfo( this.n.pl.getPlanets() ),
+          planets: this.addPlanetsInfo( this.n.pl.getPlanets(), this.n.pl.getHouses()),
           is_unknown: this.changeDatetimeQueryFormat(this.$route.query.n, 'unknown_flg'),
         },
         p:{
@@ -340,6 +417,9 @@ export default {
         },
         f:{
           query: this.$route.query.f,
+        },
+        nl:{
+          query: this.$route.query.nl,
         },
         current_planet_list: this.current_planet_list,
         main_planet_list: this.main_planet_list,
@@ -357,6 +437,7 @@ export default {
       if(!this.n) this.n = {}
       if(!this.p) this.p = {}
       if(!this.f) this.f = {}
+      if(!this.nl) this.nl = {}
 
       if(!this.n.pl) this.n.pl = new window.Pluto()
 

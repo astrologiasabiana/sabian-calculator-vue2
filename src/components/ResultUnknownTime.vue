@@ -1,7 +1,7 @@
 <template>
   <div class="res_item" :id="r.key">
     <div class="title_area">
-      <h2 class="great_title"><img class="planet_icon large" :src="r.pranet_icon">{{r.name}}</h2>
+      <h2 class="great_title"><img class="planet_icon large" :src="r.icon">{{r.name}}</h2>
       <p class="title_description">{{r.description}}</p>
     </div>
 
