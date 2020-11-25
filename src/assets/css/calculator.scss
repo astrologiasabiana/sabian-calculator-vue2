@@ -29,6 +29,13 @@
   animation-fill-mode: forwards; 
 }
 
+@media (max-width: 767px){
+  body.fix{
+    overflow-y: hidden;
+    height: 100vh;
+  }
+}
+
 @keyframes fade-out-datetime {
   0% {
     transform: translate3d(0, 0, 0);
@@ -227,6 +234,18 @@ html:not(.forecast) #set_datetime_forecast{
   width: 90%;
 }
 
+.set_param .country{
+  width: 90%;
+}
+
+.set_param .region{
+  width: 90%;
+}
+
+.set_param .city{
+  width: 90%;
+}
+
 .set_param select{
   border: solid 1px #fff;
   border-radius: 0;
@@ -245,6 +264,11 @@ html:not(.forecast) #set_datetime_forecast{
     margin: 0px 4px 120px;
     padding: 4px 20px;
     height: 36px;
+}
+@media (max-width: 767px){
+  .set_param button{
+    margin: 0px 4px 160px;
+  }
 }
 
 .set_param #getNow{

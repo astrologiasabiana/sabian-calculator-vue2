@@ -10,7 +10,7 @@
 
       <div id="res_wrap">
         <div v-for="(p, i) in r.current_planet_list" :key="i">
-          <ResultNormal :r="r.composite[p]"></ResultNormal>
+          <ResultNormal :r="r.composite[p]" v-if="!(p === 'Asc' || p === 'Mc')"></ResultNormal>
         </div>
       </div>
     </section>

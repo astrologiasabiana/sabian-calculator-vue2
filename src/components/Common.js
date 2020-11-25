@@ -20,6 +20,14 @@ export default{
       year_milisecond: 365.2425 * 24 * 60 * 60 * 1000,
     }
 
+    Number.prototype.abs = function(){
+      return Math.abs(this)
+    }
+
+    String.prototype.abs = function(){
+      return parseFloat(this).abs()
+    }
+
     String.prototype.getAspectIcon = function(){
       return '/img/aspect/'+aspect_list[this].img
     }
@@ -120,6 +128,10 @@ export default{
 
     Number.prototype.intAbs = function(){
       return Math.abs(this).int()
+    }
+
+    String.prototype.intAbs = function(){
+      return parseFloat(this).intAbs()
     }
 
     String.prototype.isForecast = function(){
@@ -455,6 +467,7 @@ export default{
       if(this.$$('#set_datetime')){
         this.$$('#set_datetime').classList.add("hide");
         this.$$('#set_datetime').classList.remove("show");
+        this.$$('body').classList.remove("fix");
       }
     },
 
@@ -543,11 +556,13 @@ export default{
         if(this.$$('#set_datetime').classList.contains("show")){
           this.$$('#set_datetime').classList.add("hide");
           this.$$('#set_datetime').classList.remove("show");
+          this.$$('body').classList.remove("fix");
         }
         else{
           this.$$('#set_datetime').classList.add("show");
           this.$$('#set_datetime').classList.remove("none");
           this.$$('#set_datetime').classList.remove("hide");
+          this.$$('body').classList.add("fix");
         }
       }
     },

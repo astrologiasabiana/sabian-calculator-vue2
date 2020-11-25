@@ -10,7 +10,7 @@
 
       <div id="res_wrap">
         <div v-for="(p, i) in r.current_planet_list" :key="i">
-          <ResultNormal :r="r.solar_arc.planets[p]"></ResultNormal>
+          <ResultNormal :r="r.solar_arc.planets[p]" v-if="!(p === 'Asc' || p === 'Mc')"></ResultNormal>
         </div>
       </div>
     </section>
@@ -62,6 +62,7 @@ export default {
 
       let solar_arc = {}
       this.r.current_planet_list.forEach(p=>{
+        if(p === 'Asc' || p === 'Mc') return
         solar_arc[p] = {longitude: this.r.n.pl.getPlanets()[p].longitude + diff}
       })
 

@@ -34,15 +34,15 @@
 
         <dt>{{ $t('calculator.set_datetime.hour_minute') }}</dt>
         <dd>
-        <input id="time" type="time" v-model="input.time" onblur="onBlurTime('time')"><br>
-        <span><input type="checkbox" id="unknown_time" class="unknown_time" v-model="input.unknown" @change="change_unknown_time">{{ $t('calculator.set_datetime.unknown_time') }}</span>
+          <input id="time" type="time" v-model="input.time" onblur="onBlurTime('time')"><br>
+          <span><input type="checkbox" id="unknown_time" class="unknown_time" v-model="input.unknown" @change="change_unknown_time">{{ $t('calculator.set_datetime.unknown_time') }}</span>
         </dd>
 
         <dt>{{ $t('calculator.set_datetime.timezone') }}</dt>
         <dd>
-        <select id="timezone" class="timezone" v-model="input.timezone">
-          <option v-for="(list, l) in timezone_list" :key="l" :value="list.val">{{list.timezone}}{{list.city}}</option>
-        </select>
+          <select id="timezone" class="timezone" v-model="input.timezone">
+            <option v-for="(list, l) in timezone_list" :key="l" :value="list.val">{{list.timezone}}{{list.city}}</option>
+          </select>
         </dd>
 
         <dt>{{ $t('calculator.set_datetime.summertime') }}</dt>
@@ -52,37 +52,52 @@
         </dd>
 
         <div id="input_location">
+          <dt>{{ $t('calculator.set_location.country_city') }}</dt>
+          <dd>
+            <select id="country" class="country" v-model="input.country" @change="change_country">
+              <option v-for="(list, l) in countries" :key="l" :value="list.iso2">{{list.country_name}}</option>
+            </select>
+
+            <select id="region" class="region" v-model="input.region" v-if="regions" @change="change_regions">
+              <option v-for="(list, l) in regions" :key="l" :value="l">{{list.region_name}}</option>
+            </select>
+
+            <select id="city" class="city" v-model="input.city" v-if="cities" @change="change_cities">
+              <option v-for="(list, l) in cities" :key="l" :value="l">{{list.city_name}}</option>
+            </select>
+          </dd>
+
           <dt>{{ $t('calculator.set_location.lat_lon') }}</dt>
           <dd>
             <nobr>
-              <select id="lat_ns" v-model="input.lat_ns">
+              <select id="lat_ns" v-model="input.lat_ns" @change="change_lat_lon">
                 <option value="N">{{ $t('calculator.set_location.north') }}</option>
                 <option value="S">{{ $t('calculator.set_location.south') }}</option>
               </select>
 
-              <select id="lat_degree" v-model="input.lat_degree">
+              <select id="lat_degree" v-model="input.lat_degree" @change="change_lat_lon">
                 <option v-for="n of 90" :key="n-1" :value="n-1">{{n-1}}</option>
               </select>
               <span>˚</span>
 
-              <select id="lat_minute" v-model="input.lat_minute">
+              <select id="lat_minute" v-model="input.lat_minute" @change="change_lat_lon">
                 <option v-for="n of 60" :key="n-1" :value="n-1">{{n-1}}</option>
               </select>
               <span>′</span>
             </nobr>
-
+            <br>
             <nobr>
-              <select id="lon_ew" v-model="input.lon_ew">
+              <select id="lon_ew" v-model="input.lon_ew" @change="change_lat_lon">
                 <option value="E">{{ $t('calculator.set_location.east') }}</option>
                 <option value="W">{{ $t('calculator.set_location.west') }}</option>
               </select>
 
-              <select id="lon_degree" v-model="input.lon_degree">
+              <select id="lon_degree" v-model="input.lon_degree" @change="change_lat_lon">
                 <option v-for="n of 180" :key="n-1" :value="n-1">{{n-1}}</option>
               </select>
               <span>˚</span>
 
-              <select id="lon_minute" v-model="input.lon_minute">
+              <select id="lon_minute" v-model="input.lon_minute" @change="change_lat_lon">
                 <option v-for="n of 60" :key="n-1" :value="n-1">{{n-1}}</option>
               </select>
               <span>′</span>
@@ -137,6 +152,7 @@
 import Mixin from '@/components/Common'
 import define from '@/assets/js/define'
 import planet_list from '@/assets/yml/planet.yml'
+import axios from 'axios'
 export default {
   name: 'Calculator',
   mixins:[Mixin],
@@ -157,6 +173,9 @@ export default {
       is_forecast: null,
       datetime_view: this.get_datetime_view(this.$route),
       input: this.get_input(this.$route),
+      countries: this.countries,
+      regions: this.regions,
+      cities: this.cities,
       timezone_list : [
         {val:-12, timezone:'UTC -12:00', city:''},
         {val:-11.5, timezone:'UTC -11:30', city:''},
@@ -220,6 +239,7 @@ export default {
     //this.setAstronomicalModel()
     this.set_default_cookie()
     this.set_result()
+    this.set_countries()
   },
   mounted(){
     const to = this.$route
@@ -229,6 +249,7 @@ export default {
     this.set_forecast(to)
     this.change_unknown_time()
 
+    
   },
   watch:{
     '$route': function(to){
@@ -299,6 +320,29 @@ export default {
       this.toggle_set_datetime()
     },
 
+    change_country: function(){
+      this.cities = null
+      const country_code = this.$$('#country').value
+
+      this.set_regions(country_code)
+      this.delete_lat_lon()
+    },
+
+    change_regions: function(){
+      const region_code = this.$$('#region').value
+      this.set_region(region_code)
+    },
+
+    change_cities: function(){
+      const city_code = this.$$('#city').value
+      this.set_city(city_code)
+    },
+
+    change_lat_lon: function(){
+      this.input.region = null
+      this.cities = null
+    },
+
     change_unknown_time: function(){
       if(this.$$("#unknown_time")){
         if(this.$$("#unknown_time").checked){
@@ -323,6 +367,13 @@ export default {
       }
     },
 
+    delete_lat_lon(){
+      this.input.lat_degree = 0
+      this.input.lat_minute = 0
+      this.input.lon_degree = 0
+      this.input.lon_minute = 0
+    },
+
     get_datetime_view(to){
       if(!to) return
       return {
@@ -334,6 +385,12 @@ export default {
     },
 
     get_input(to){
+      let country_code = ''
+      if(window.lang === 'ja'){
+        country_code = 'JP'
+        this.set_regions(country_code)
+      }
+
       return {
         date: this.changeDatetimeQueryFormat(to.query.n, "yyyy-MM-dd"),
         time: this.changeDatetimeQueryFormat(to.query.n, "HH:mm"),
@@ -352,8 +409,10 @@ export default {
         lon_ew: this.changeLocationQueryFormat(to.query.nl, "EW"),
         lon_degree: this.changeLocationQueryFormat(to.query.nl, "lon_degree"),
         lon_minute: this.changeLocationQueryFormat(to.query.nl, "lon_minute"),
+        country: country_code,
       }
     },
+
 
     get_new_query_from_inputbox(){
       let query = {}
@@ -428,6 +487,29 @@ export default {
       }
     },
 
+    set_city(city_code){
+      const city_info = this.cities[city_code]
+      const lat = parseFloat(city_info.lat)
+      const lon = parseFloat(city_info.lon)
+
+      this.input.city = city_code
+      this.input.lat_ns = lat >= 0 ? 'N' : 'S'
+      this.input.lat_degree = lat.intAbs()
+      this.input.lat_minute = (lat.abs() % 1 * 60).int()
+      this.input.lon_ew = lon >= 0 ? 'E' : 'W'
+      this.input.lon_degree = lon.intAbs()
+      this.input.lon_minute = (lon.abs() % 1 * 60).int()
+    },
+
+    set_countries(){
+      axios
+      .get('https://search-city-json.s3-ap-northeast-1.amazonaws.com/v1/countries.json')
+      .then(response => (this.countries = response.data))
+      .catch(function(error){
+        console.error(error)
+      })
+    },
+
     set_datetime_view(to, view){
       if(!to) return
       return Object.assign(view, this.get_datetime_view(to))
@@ -484,6 +566,40 @@ export default {
       view.n = this.changeDatetimeQueryFormat(to.query.n, "TEXT")
       view.p = this.changeDatetimeQueryFormat(to.query.p, "TEXT")
       view.f = this.changeDatetimeQueryFormat(to.query.f, "TEXT_DATE")
+    },
+
+    set_region: function(region_code){
+      this.input.region = region_code
+      this.cities = this.regions[region_code].cities
+      this.delete_lat_lon()
+
+      if(Object.keys(this.cities).length === 1){
+        const city_code = Object.keys(this.cities)[0]
+        this.set_city(city_code)
+      }
+    },
+
+    set_regions: function(country_code){
+      this.cities = null
+
+      axios
+      .get('https://search-city-json.s3-ap-northeast-1.amazonaws.com/v1/'+country_code+'.json')
+      //.then(response => (this.regions = response.data))
+      .then(response => {
+        this.regions = response.data
+        
+        if(Object.keys(response.data).length === 1){
+          const region_code = Object.keys(this.regions)[0]
+          this.set_region(region_code)
+        }
+      })
+      .catch(function(error){
+        console.error(error)
+      })
+    },
+
+    set_cities: function(){
+
     },
 
     set_result(){

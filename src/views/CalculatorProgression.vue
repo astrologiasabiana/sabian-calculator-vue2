@@ -9,8 +9,8 @@
       <MandalaGeocentric v-if="!r.helio" :result="r.progression.planets"></MandalaGeocentric>
 
       <div id="res_wrap">
-        <div v-for="(p, i) in r.current_planet_list" :key="i">
-          <ResultNormal :r="r.progression.planets[p]"></ResultNormal>
+        <div v-for="(p, i) in r.current_planet_list" :key="i" >
+          <ResultNormal :r="r.progression.planets[p]" v-if="!(p === 'Asc' || p === 'Mc')"></ResultNormal>
         </div>
       </div>
     </section>

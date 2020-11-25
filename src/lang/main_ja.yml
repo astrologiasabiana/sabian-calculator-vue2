@@ -57,6 +57,12 @@ planet_list:
   MeanLilith:
     name: リリス(Mean)
     description: 魅力・秘めごと
+  Asc:
+    name: ASC
+    description: ''
+  Mc:
+    name: MC
+    description: ''
 aspect_list:
   Conjunction:
     name: コンジャンクション
@@ -137,6 +143,7 @@ calculator:
     south: 南緯
     east: 東経
     west: 西経
+    country_city: 地域 / 都市
   midpoint: 
     midpoint_with: '{planet}との中間点'
   harmonics:

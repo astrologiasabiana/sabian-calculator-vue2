@@ -143,6 +143,7 @@ calculator:
     south: South
     east: East
     west: West
+    country_city: Region / City
   midpoint: 
     midpoint_with: Midpoint with {planet}
   harmonics:
