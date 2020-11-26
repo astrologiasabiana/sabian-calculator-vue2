@@ -207,9 +207,13 @@ setting:
     true_lilith: トゥルー・リリス
     mean_lilith: ミーン・リリス
   astronomical_model:
-    title: 地球中心/太陽中心
-    geocentric: ジオセントリック
+    title: ホロスコープタイプ
+    geocentric: ジオセントリック（通常）
     heliocentric: ヘリオセントリック
+    house_sabian_asc_aries: ハウスサビアン（ASC = 牡羊座0度）
+    house_sabian_mc_capricorn: ハウスサビアン（MC = 山羊座0度）
+    house_sabian_asc_aries_short: ASC = 牡羊座0˚
+    house_sabian_mc_capricorn_short: MC = 山羊座0˚
   language:
     title: 言語
 polygon_list:

@@ -7,12 +7,21 @@
         <a id="res_date_time_p" class="res_date_time" @click="click_res_date_time" v-if="is_partner">{{ datetime_view.p}}</a>
         <a id="res_date_time_f" class="res_date_time" @click="click_res_date_time" v-if="is_forecast">{{datetime_view.f}}</a>
       </div>
-      <div id="res_mode_wrap">
+
+      <div id="res_mode_wrap" v-if="$route.query.m && $route.name !== 'calculator_setting'">
         <p class="title sp-none">{{ $t('common.left_nav.mode') }}</p>
         <router-link :to="{name:'calculator_setting', query: $route.query}">
-          <p id="res_mode">
+          <p id="res_mode" v-if="$route.query.m === 'helio'">
             <span class="pc-none">HELIO</span>
             <span class="sp-none">{{ $t('setting.astronomical_model.heliocentric') }}</span>
+          </p>
+          <p id="res_mode" v-if="$route.query.m === 'asc_aries'">
+            <span class="pc-none">ASC=Ari.0˚</span>
+            <span class="sp-none">{{ $t('setting.astronomical_model.house_sabian_asc_aries_short') }}</span>
+          </p>
+          <p id="res_mode" v-if="$route.query.m === 'mc_capricorn'">
+            <span class="pc-none">MC=Cap.0˚</span>
+            <span class="sp-none">{{ $t('setting.astronomical_model.house_sabian_mc_capricorn_short') }}</span>
           </p>
         </router-link>
       </div>
@@ -249,7 +258,6 @@ export default {
     this.set_forecast(to)
     this.change_unknown_time()
 
-    
   },
   watch:{
     '$route': function(to){
@@ -449,6 +457,7 @@ export default {
         this.$$('#lon_degree').value,
         this.$$('#lon_minute').value,
       )
+      query.m = this.$route.query.m
       return query
     },
 
@@ -483,7 +492,7 @@ export default {
         current_planet_list: this.current_planet_list,
         main_planet_list: this.main_planet_list,
         planet_define_list: planet_list,
-        helio: this.$route.query.helio ? 1 : 0,
+        m: this.$route.query.m ? this.$route.query.m : null,
       }
     },
 

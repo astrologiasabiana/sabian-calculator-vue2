@@ -4,9 +4,14 @@
       <h1>Solar Arc Calculator</h1>
       <img src="/img/geometry/solar_arc_01.svg" style="width: 120px; margin-bottom: 30px;">
     </section>
-    <section id="result">
-      <MandalaHeliocentric v-if="r.helio" :result="r.solar_arc.planets"></MandalaHeliocentric>
-      <MandalaGeocentric v-if="!r.helio" :result="r.solar_arc.planets"></MandalaGeocentric>
+
+    <section id="sorry" v-if="r.m === 'asc_aries' || r.m === 'mc_capricorn'">
+      <span>{{ $t('calculator.sorry_house_sabian') }}</span>
+    </section>
+
+    <section id="result" v-else>
+      <MandalaHeliocentric v-if="r.m === 'helio'" :result="r.solar_arc.planets"></MandalaHeliocentric>
+      <MandalaGeocentric v-if="r.m !== 'helio'" :result="r.solar_arc.planets"></MandalaGeocentric>
 
       <div id="res_wrap">
         <div v-for="(p, i) in r.current_planet_list" :key="i">
@@ -56,8 +61,14 @@ export default {
       //いったんProgress
       this.set_progression()
 
-      const natal_sun_longitude = this.r.n.pl.getPlanets().Sun.longitude
-      const progression_sun_longitude = this.r.progression.pl.getPlanets().Sun.longitude
+      let base_planet = 'Sun'
+      //ヘリオの場合
+      if(this.$route.query.m === 'helio'){
+        base_planet = 'Earth';
+      }
+
+      const natal_sun_longitude = this.r.n.pl.getPlanets()[base_planet].longitude
+      const progression_sun_longitude = this.r.progression.pl.getPlanets()[base_planet].longitude
       const diff = progression_sun_longitude - natal_sun_longitude
 
       let solar_arc = {}
@@ -66,7 +77,7 @@ export default {
         solar_arc[p] = {longitude: this.r.n.pl.getPlanets()[p].longitude + diff}
       })
 
-      solar_arc = this.addPlanetsInfo(solar_arc)
+      solar_arc = this.addPlanetsInfo(solar_arc, this.r.n.pl.getHouses())
 
       this.r.solar_arc = {}
       this.r.solar_arc.planets = solar_arc
@@ -87,7 +98,7 @@ export default {
       this.r.progression.pl.setDateArray(this.changeDatetimeQueryFormat(this.$route.query.n, 'array'))
       this.r.progression.pl.addJulDay(diff_year);
 
-      if(this.r.helio){
+      if(this.r.m === 'helio'){
         this.r.progression.pl.setHeliocentric();
       }
     },

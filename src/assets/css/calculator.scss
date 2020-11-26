@@ -421,8 +421,21 @@ html:not(.forecast) #set_datetime_forecast{
   display: none;
 }
 
-.heliocentric #res_mode_wrap{
+.special_astro_model #res_mode_wrap{
   display: block;
+}
+@media (min-width: 768px){
+  .special_astro_model #res_mode_wrap{
+      top: 175px;
+      position: fixed;
+      width: 220px;
+      left: 0;
+      z-index: 999999;
+  }
+  .special_astro_model #res_mode_wrap .title{
+    padding: 0 0 0 20px;
+    text-align: left;
+  }
 }
 
 #res_mode{
@@ -430,6 +443,14 @@ html:not(.forecast) #set_datetime_forecast{
     right: 2vw;
     top: 2.4vw;
     font-size: 12px;
+}
+
+@media (max-width: 767px){
+  #res_mode{
+    z-index: 99999;
+    position: fixed;
+    right: 10px;
+  }
 }
 @media (min-width: 768px){
   #res_mode{
@@ -503,14 +524,14 @@ html.partner #input_location, html.forecast #input_location{
     z-index: 99998;
   }
 
-  .heliocentric #calculator_nav{
+  .special_astro_model #calculator_nav{
     top: 243px;
   }
   .partner #calculator_nav, .forecast #calculator_nav{
     top: 221px;
   }
-  .heliocentric.partner #calculator_nav,
-  .heliocentric.forecast #calculator_nav {
+  .special_astro_model.partner #calculator_nav,
+  .special_astro_model.forecast #calculator_nav {
     top: 264px;
   }
 
@@ -1033,7 +1054,9 @@ td.description{
   font-size: 12px;
 }
 
-
+#sorry{
+  margin: 0 0 100px;
+}
 
 
 /* 

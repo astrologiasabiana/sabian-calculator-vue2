@@ -194,8 +194,8 @@ setting:
     true_lilith: Lilith vraie
     mean_lilith: Lilith moyenne
   astronomical_model:
-    title: Modèle astronomique
-    geocentric: Géocentrique
+    title: Type d'horoscope
+    geocentric: Géocentrique (défaut)
     heliocentric: Héliocentrique
   language:
     title: Language

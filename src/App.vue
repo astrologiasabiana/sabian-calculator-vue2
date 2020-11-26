@@ -85,6 +85,7 @@ export default {
           if(this.$$('#res_date_time')) this.$$('#res_date_time').style.display = 'none'
           if(this.$$('#res_date_time_f')) this.$$('#res_date_time_f').style.display = 'none'
           if(this.$$('#res_date_time_p')) this.$$('#res_date_time_p').style.display = 'none'
+          if(this.$$('#res_mode')) this.$$('#res_mode').style.display = 'none'
         }
         else{
           if(this.$$('header')) this.$$('header').style.display = 'block'
@@ -92,6 +93,7 @@ export default {
           if(this.$$('#res_date_time')) this.$$('#res_date_time').style.display = 'block'
           if(this.$$('#res_date_time_f')) this.$$('#res_date_time_f').style.display = 'block'
           if(this.$$('#res_date_time_p')) this.$$('#res_date_time_p').style.display = 'block'
+          if(this.$$('#res_mode')) this.$$('#res_mode').style.display = 'block'
         }
       }
       else{
@@ -100,6 +102,7 @@ export default {
         if(this.$$('#res_date_time')) this.$$('#res_date_time').style.display = 'block'
         if(this.$$('#res_date_time_f')) this.$$('#res_date_time_f').style.display = 'block'
         if(this.$$('#res_date_time_p')) this.$$('#res_date_time_p').style.display = 'block'
+        if(this.$$('#res_mode')) this.$$('#res_mode').style.display = 'block'
       }
 
       this.scrollY = window.scrollY

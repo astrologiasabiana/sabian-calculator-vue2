@@ -4,9 +4,14 @@
       <h1>Composite Calculator</h1>
       <img src="/img/geometry/composite_01.svg" style="width: 120px; margin-bottom: 30px;">
     </section>
-    <section id="result">
-      <MandalaHeliocentric v-if="r.helio" :result="r.composite"></MandalaHeliocentric>
-      <MandalaGeocentric v-if="!r.helio" :result="r.composite"></MandalaGeocentric>
+
+    <section id="sorry" v-if="r.m === 'asc_aries' || r.m === 'mc_capricorn'">
+      <span>{{ $t('calculator.sorry_house_sabian') }}</span>
+    </section>
+
+    <section id="result" v-else>
+      <MandalaHeliocentric v-if="r.m === 'helio'" :result="r.composite"></MandalaHeliocentric>
+      <MandalaGeocentric v-if="r.m !== 'helio'" :result="r.composite"></MandalaGeocentric>
 
       <div id="res_wrap">
         <div v-for="(p, i) in r.current_planet_list" :key="i">
@@ -76,7 +81,7 @@ export default {
       if(!this.r.p.pl) this.r.p.pl = new window.Pluto()
       this.r.p.pl.setDateArray(this.changeDatetimeQueryFormat(this.$route.query.p, 'array'))
 
-      if(this.r.helio){
+      if(this.r.m === 'helio'){
         this.r.p.pl.setHeliocentric();
       }
     },

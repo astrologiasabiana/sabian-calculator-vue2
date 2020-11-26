@@ -230,6 +230,29 @@ export default{
         planets.Mc.longitude = houses[10]
         planets.Mc = Object.assign(planets.Mc, this.getPlanetInfo('Mc'))
         planets.Mc = Object.assign(planets.Mc, this.getDegreeInfo(houses[10]))
+
+        if(this.$route.query.m === 'asc_aries' || this.$route.query.m === 'mc_capricorn'){
+          let house_sabian_planets = {}
+
+          this.current_planet_list.forEach((p)=>{
+            house_sabian_planets[p] = {}
+            house_sabian_planets[p] = Object.assign(house_sabian_planets[p], this.getPlanetInfo(p))
+
+            if(planets[p].longitude){
+              if(this.$route.query.m === 'asc_aries'){
+                house_sabian_planets[p].longitude = planets[p].longitude - houses[1]
+              }
+              else if(this.$route.query.m === 'mc_capricorn'){
+                house_sabian_planets[p].longitude = planets[p].longitude - houses[10] + 270
+              }
+              if(house_sabian_planets[p].longitude < 0) house_sabian_planets[p].longitude += 360
+              
+              house_sabian_planets[p] = Object.assign(house_sabian_planets[p], this.getDegreeInfo(house_sabian_planets[p].longitude))
+            }
+          })
+
+          return house_sabian_planets
+        }
       }
 
       return planets
@@ -362,6 +385,7 @@ export default{
     },
 
     getDegreeInfo(longitude, is_int){
+      if(longitude < 0) longitude += parseInt(longitude / 360 + 1) * 360
       longitude = parseFloat(longitude) % 360
 
       if(is_int === 'int' ||
@@ -514,14 +538,15 @@ export default{
     setAstronomicalModel(){
       const pl_list = ['n', 'p', 'f']
 
-      if(this.$route.query.helio){
+      if(this.$route.query.m === 'helio'){
         pl_list.forEach((i)=>{
           if(this[i] && this[i].pl) this[i].pl.setHeliocentric();
         })
         this.current_planet_list = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"]
         this.main_planet_list = ["Pluto", "Neptune"]
-        this.$$('html').classList.add('heliocentric');
+        this.$$('html').classList.add('special_astro_model');
       }
+
       else{
         pl_list.forEach((i)=>{
           if(this[i] && this[i].pl) this[i].pl.unsetHeliocentric();
@@ -529,16 +554,24 @@ export default{
 
         let true_mean_node = this.$cookies.get('true_mean_node') == 1 ? 'MeanNode': 'TrueNode'
         let true_mean_lilith = this.$cookies.get('true_mean_lilith') == 1 ? 'MeanLilith': 'TrueLilith'
-
         this.current_planet_list = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", true_mean_node, true_mean_lilith]
+        this.main_planet_list = ["Sun", "Moon"]
 
-        if(this.$route.query.n && !this.changeDatetimeQueryFormat(this.$route.query.n, 'unknown_flg')){
-          this.current_planet_list.push('Asc')
-          this.current_planet_list.push('Mc')
+        //ハウスサビアン
+        if(this.$route.query.m === 'asc_aries' || this.$route.query.m === 'mc_capricorn'){
+          this.$$('html').classList.add('special_astro_model');
         }
 
-        this.main_planet_list = ["Sun", "Moon"]
-        this.$$('html').classList.remove('heliocentric');
+        //ノーマル
+        else{
+          if(this.$route.query.n &&
+             !this.changeDatetimeQueryFormat(this.$route.query.n, 'unknown_flg')){
+            this.current_planet_list.push('Asc')
+            this.current_planet_list.push('Mc')
+          }
+
+          this.$$('html').classList.remove('special_astro_model');
+        }
       }
     },
 

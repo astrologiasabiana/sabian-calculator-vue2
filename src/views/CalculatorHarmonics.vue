@@ -75,6 +75,7 @@ export default {
       this.harmonics_range = harmonics_range
 
       let base_degrees = []
+
       this.r.current_planet_list.forEach(p=>{
         const planet_key = planets[p].key
         base_degrees.push(planets[planet_key].longitude)

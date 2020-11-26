@@ -191,6 +191,7 @@ calculator:
         composite:
           title: Composite
           description: Sabian Symbols List of composite chart
+  sorry_house_sabian: Sorry. You can't use it with House Sabian mode.
 setting:
   orb:
     title: Orbs
@@ -207,9 +208,13 @@ setting:
     true_lilith: True Lilith
     mean_lilith: Mean Lilith
   astronomical_model:
-    title: Astronomical Model
-    geocentric: Geocentric
+    title: Horoscope Type
+    geocentric: Geocentric (default)
     heliocentric: Heliocentric
+    house_sabian_asc_aries: House Sabian (ASC = Aries 0˚)
+    house_sabian_mc_capricorn: House Sabian (MC = Capricorn 0˚)
+    house_sabian_asc_aries_short: ASC = Aries 0˚
+    house_sabian_mc_capricorn_short: MC = Capricorn 0˚
   language:
     title: Language
 polygon_list:

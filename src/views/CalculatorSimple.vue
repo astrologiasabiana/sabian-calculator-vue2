@@ -17,7 +17,7 @@ them<br>
   </p>
     </section>
     <section id="result">
-      <MandalaHeliocentric v-if="r.helio == 1" :result="r.n.planets"></MandalaHeliocentric>
+      <MandalaHeliocentric v-if="r.m === 'helio'" :result="r.n.planets"></MandalaHeliocentric>
       <MandalaGeocentric v-else :result="r.n.planets"></MandalaGeocentric>
 
       <div id="res_wrap">

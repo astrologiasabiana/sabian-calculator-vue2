@@ -162,7 +162,7 @@ export default {
       }
 
       //ヘリオの場合
-      if(this.$route.query.helio){
+      if(this.$route.query.m === 'helio'){
         return 'Earth';
       }
       //ジオの場合
