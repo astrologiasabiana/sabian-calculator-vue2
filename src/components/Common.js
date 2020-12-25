@@ -269,6 +269,7 @@ export default{
       let timezone_plus_minus = query[12] === 'E' ? 1 : -1
       let timezone = timezone_plus_minus * (query.slice(13,15).int() + query.slice(15,17) / 60)
       let unknown_time = 0
+      let summertime = query[17] === 'S' ? 1 : 0
       if(query.slice(8,12) === '----'){
         hour = '12'
         minute = '00'
@@ -288,7 +289,7 @@ export default{
         case 'yyyy-MM-ddTHH:mm:00':
           return year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':00'
         case 'array':
-          return {year: year, month: month, day: day, hour: hour, minute: minute, timezone: timezone}
+          return {year: year, month: month, day: day, hour: hour, minute: minute, timezone: timezone+summertime}
         case 'timezone':
           return timezone
         case 'summertime_flg':

@@ -151,7 +151,7 @@
         </div>
 
         <button id="get_planet_position" @click="click_get_planet_position">{{ $t('calculator.set_datetime.calculate') }}</button>
-        <button id="replace_main_parnter" @click="click_replace_main_partner" v-if="is_partner">{{ $t('calculator.set_datetime.replace') }}</button>
+        <!--<button id="replace_main_parnter" @click="click_replace_main_partner" v-if="is_partner">{{ $t('calculator.set_datetime.replace') }}</button>-->
       </div>
     </dl>
   </div>
@@ -402,12 +402,12 @@ export default {
       return {
         date: this.changeDatetimeQueryFormat(to.query.n, "yyyy-MM-dd"),
         time: this.changeDatetimeQueryFormat(to.query.n, "HH:mm"),
-        timezone: this.changeDatetimeQueryFormat(to.query.n, "timezone") - this.changeDatetimeQueryFormat(to.query.n, "summertime_flg"),
+        timezone: this.changeDatetimeQueryFormat(to.query.n, "timezone"),
         summertime: this.changeDatetimeQueryFormat(to.query.n, "summertime_flg"),
         unknown: this.changeDatetimeQueryFormat(to.query.n, "unknown_flg"),
         date_p: this.changeDatetimeQueryFormat(to.query.p, "yyyy-MM-dd"),
         time_p: this.changeDatetimeQueryFormat(to.query.p, "HH:mm"),
-        timezone_p: this.changeDatetimeQueryFormat(to.query.p, "timezone") - this.changeDatetimeQueryFormat(to.query.p, "summertime_flg"),
+        timezone_p: this.changeDatetimeQueryFormat(to.query.p, "timezone"),
         summertime_p: this.changeDatetimeQueryFormat(to.query.p, "summertime_flg"),
         unknown_p: this.changeDatetimeQueryFormat(to.query.p, "unknown_flg"),
         date_f: this.changeDatetimeQueryFormat(to.query.f, "yyyy-MM-dd"),
