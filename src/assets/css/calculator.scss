@@ -267,7 +267,7 @@ html:not(.forecast) #set_datetime_forecast{
 }
 @media (max-width: 767px){
   .set_param button{
-    margin: 0px 4px 160px;
+    margin: 0px 4px 200px;
   }
 }
 
@@ -316,7 +316,7 @@ html:not(.forecast) #set_datetime_forecast{
     padding: 4px;
     color: #c7d7e6;
     border: solid 1px #82add3;
-    max-height: 282px;
+    max-height: 230px;
     overflow-y: auto;
     opacity: 0.95;
 }
