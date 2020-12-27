@@ -31,7 +31,7 @@
       <router-view :r="result"></router-view>
     </article>
 
-    <dl v-if="$route.name.match(/^calculator/)" id="set_datetime" class="set_param none">
+    <dl v-if="$route.name.match(/^calculator/)" id="set_datetime" class="set_param none" @click="click_close_input_modal">
       <div id="set_datetime_inner">
         <button id="close" @click="click_close">
           <div></div>
@@ -62,18 +62,41 @@
 
         <div id="input_location">
           <dt>{{ $t('calculator.set_location.country_city') }}</dt>
+
           <dd>
-            <select id="country" class="country" v-model="input.country" @change="change_country">
-              <option v-for="(list, l) in countries" :key="l" :value="list.iso2">{{list.country_name}}</option>
-            </select>
+            <div><input type="radio" value="input_city_name" class="how_to_input_city" name="how_to_input_city" id="how_to_input_city_by_city_name" @change="change_how_to_input_city" checked><span class="how_to_input_city">{{ $t('calculator.how_to_input_city.input_city_name') }}</span></div>
+            <div><input type="radio" value="select_area" class="how_to_input_city" name="how_to_input_city" id="how_to_input_city_by_select_area" @change="change_how_to_input_city"><span class="how_to_input_city">{{ $t('calculator.how_to_input_city.select_area') }}</span></div>
 
-            <select id="region" class="region" v-model="input.region" v-if="regions" @change="change_regions">
-              <option v-for="(list, l) in regions" :key="l" :value="l">{{list.region_name}}</option>
-            </select>
+            <div id="input_city_name_container">
+              <input id="input_city" @keyup="keyup_input_city" v-model="input_city" placeholder="City name">
+              <div id="input_city_list" v-if="input_cities && input_cities.length > 0">
+                <ul>
+                  <li
+                    v-for="(city, i) in input_cities"
+                    :key="i"
+                    @click="click_input_city"
+                    :data-city_ascii="city.city_ascii"
+                    :data-lat="city.lat"
+                    :data-lon="city.lon">
+                    {{city.city_name}} ({{city.country_name}} / {{city.region_name}})
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-            <select id="city" class="city" v-model="input.city" v-if="cities" @change="change_cities">
-              <option v-for="(list, l) in cities" :key="l" :value="l">{{list.city_name}}</option>
-            </select>
+            <div id="select_area_container" style="display:none">
+              <select id="country" class="country" v-model="input.country" @change="change_country">
+                <option v-for="(list, l) in countries" :key="l" :value="list.iso2">{{list.country_name}}</option>
+              </select>
+
+              <select id="region" class="region" v-model="input.region" v-if="regions" @change="change_regions">
+                <option v-for="(list, l) in regions" :key="l" :value="l">{{list.region_name}}</option>
+              </select>
+
+              <select id="city" class="city" v-model="input.city" v-if="cities" @change="change_cities">
+                <option v-for="(list, l) in cities" :key="l" :value="l">{{list.city_name}}</option>
+              </select>
+            </div>
           </dd>
 
           <dt>{{ $t('calculator.set_location.lat_lon') }}</dt>
@@ -180,11 +203,14 @@ export default {
       result: this.get_result(),
       is_partner: null,
       is_forecast: null,
+
       datetime_view: this.get_datetime_view(this.$route),
       input: this.get_input(this.$route),
       countries: this.countries,
       regions: this.regions,
       cities: this.cities,
+      input_city: this.input_city,
+      input_cities: this.input_cities,
       timezone_list : [
         {val:-12, timezone:'UTC -12:00', city:''},
         {val:-11.5, timezone:'UTC -11:30', city:''},
@@ -289,6 +315,10 @@ export default {
       this.hide_set_datetime()
     },
 
+    click_close_input_modal(){
+      this.input_cities = []
+    },
+
     click_get_planet_position(){
       this.hide_set_datetime()
 
@@ -301,6 +331,14 @@ export default {
       this.set_dateitime_to_pluto()
 
       this.set_result()
+    },
+
+    click_input_city(e){
+      this.input_city = e.target.dataset.city_ascii
+
+      const lat = e.target.dataset.lat
+      const lon = e.target.dataset.lon
+      this.set_lat_lon(lat, lon)
     },
 
     click_replace_main_partner(){
@@ -334,6 +372,17 @@ export default {
 
       this.set_regions(country_code)
       this.delete_lat_lon()
+    },
+
+    change_how_to_input_city: function(e){
+      if(e.target.value === 'input_city_name'){
+        this.$$('#input_city_name_container').style.display = 'block'
+        this.$$('#select_area_container').style.display = 'none'
+      }
+      else{
+        this.$$('#input_city_name_container').style.display = 'none'
+        this.$$('#select_area_container').style.display = 'block'
+      }
     },
 
     change_regions: function(){
@@ -496,23 +545,47 @@ export default {
       }
     },
 
+    keyup_input_city: function(e){
+      const val = e.target.value
+      const key = val.toLowerCase().replace(/[^a-z]/g, '')
+
+      if(key.length < 3){
+        this.input_cities = []
+        return
+      }
+
+      const alphabet_key = key.slice(0,3)
+
+      if(this.alphabet_key === alphabet_key){
+        this.set_input_cities(key)
+      }
+      else{
+        this.alphabet_key = alphabet_key
+
+        axios
+        .get('https://search-city-json.s3-ap-northeast-1.amazonaws.com/v2/alphabets/'+alphabet_key+'.json')
+        .then(response => {
+          this.input_all_cities = response.data
+          this.set_input_cities(key)
+        })
+        .catch(function(error){
+          console.error(error)
+        })
+      }
+    },
+
     set_city(city_code){
       const city_info = this.cities[city_code]
       const lat = parseFloat(city_info.lat)
       const lon = parseFloat(city_info.lon)
 
       this.input.city = city_code
-      this.input.lat_ns = lat >= 0 ? 'N' : 'S'
-      this.input.lat_degree = lat.intAbs()
-      this.input.lat_minute = (lat.abs() % 1 * 60).int()
-      this.input.lon_ew = lon >= 0 ? 'E' : 'W'
-      this.input.lon_degree = lon.intAbs()
-      this.input.lon_minute = (lon.abs() % 1 * 60).int()
+      this.set_lat_lon(lat, lon)
     },
 
     set_countries(){
       axios
-      .get('https://search-city-json.s3-ap-northeast-1.amazonaws.com/v1/countries.json')
+      .get('https://search-city-json.s3-ap-northeast-1.amazonaws.com/v2/countries/index.json')
       .then(response => (this.countries = response.data))
       .catch(function(error){
         console.error(error)
@@ -557,6 +630,25 @@ export default {
       }
     },
 
+    set_input_cities(key){
+      let input_cities = []
+      this.input_all_cities.forEach((city)=>{
+        if(city['city_key'].match(key)){
+          input_cities.push(city)
+        }
+      })
+      this.input_cities = input_cities
+    },
+
+    set_lat_lon(lat, lon){
+      this.input.lat_ns = lat >= 0 ? 'N' : 'S'
+      this.input.lat_degree = lat.intAbs()
+      this.input.lat_minute = (lat.abs() % 1 * 60).int()
+      this.input.lon_ew = lon >= 0 ? 'E' : 'W'
+      this.input.lon_degree = lon.intAbs()
+      this.input.lon_minute = (lon.abs() % 1 * 60).int()
+    },
+
     set_partner(to){
       const service = to.name.replace('calculator_', '')
 
@@ -592,7 +684,7 @@ export default {
       this.cities = null
 
       axios
-      .get('https://search-city-json.s3-ap-northeast-1.amazonaws.com/v1/'+country_code+'.json')
+      .get('https://search-city-json.s3-ap-northeast-1.amazonaws.com/v2/countries/'+country_code+'.json')
       //.then(response => (this.regions = response.data))
       .then(response => {
         this.regions = response.data

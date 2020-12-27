@@ -144,6 +144,9 @@ calculator:
     east: East
     west: West
     country_city: Region / City
+  how_to_input_city:
+    input_city_name: Input city name (accept a to z)
+    select_area: Select area
   midpoint: 
     midpoint_with: Midpoint with {planet}
   harmonics:

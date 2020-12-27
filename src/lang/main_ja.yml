@@ -137,6 +137,9 @@ calculator:
     partner: パートナー
     forecast: 予測する日
     forecast_text: UTC(協定世界時)の午前0:00で計算します。
+  how_to_input_city:
+    input_city_name: 都市名を入力 (a〜z)
+    select_area: 地域から選択
   set_location:
     lat_lon: 緯度経度
     north: 北緯
