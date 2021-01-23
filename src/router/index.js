@@ -82,12 +82,6 @@ const routes = [
       },
     ]
   },
-
-  {
-    path: window.lang_prefix + "/*",
-    name: 'home',
-    component:() => import('@/views/Home.vue'),
-  },
 ]
 
 const router = new VueRouter({
