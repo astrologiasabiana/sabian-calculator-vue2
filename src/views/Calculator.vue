@@ -266,8 +266,6 @@ export default {
         {val:13.5, timezone:'UTC +13:30', city:''},
         {val:14, timezone:'UTC +14:00', city:''},
       ],
-
-
     }
   },
   created(){
