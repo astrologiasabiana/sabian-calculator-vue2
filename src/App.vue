@@ -81,7 +81,7 @@ export default {
       if(this.scrollY && window.scrollY > 200){
         if(window.scrollY > this.scrollY){
           if(this.$$('header')) this.$$('header').style.display = 'none'
-          if(this.$$('#page_nav')) this.$$('#page_nav').style.display = 'none'
+          //if(this.$$('#page_nav')) this.$$('#page_nav').style.display = 'none'
           if(this.$$('#res_date_time')) this.$$('#res_date_time').style.display = 'none'
           if(this.$$('#res_date_time_f')) this.$$('#res_date_time_f').style.display = 'none'
           if(this.$$('#res_date_time_p')) this.$$('#res_date_time_p').style.display = 'none'
@@ -89,7 +89,7 @@ export default {
         }
         else{
           if(this.$$('header')) this.$$('header').style.display = 'block'
-          if(this.$$('#page_nav')) this.$$('#page_nav').style.display = 'block'
+          //if(this.$$('#page_nav')) this.$$('#page_nav').style.display = 'block'
           if(this.$$('#res_date_time')) this.$$('#res_date_time').style.display = 'block'
           if(this.$$('#res_date_time_f')) this.$$('#res_date_time_f').style.display = 'block'
           if(this.$$('#res_date_time_p')) this.$$('#res_date_time_p').style.display = 'block'
@@ -98,7 +98,7 @@ export default {
       }
       else{
         if(this.$$('header')) this.$$('header').style.display = 'block'
-        if(this.$$('#page_nav')) this.$$('#page_nav').style.display = 'block'
+        //if(this.$$('#page_nav')) this.$$('#page_nav').style.display = 'block'
         if(this.$$('#res_date_time')) this.$$('#res_date_time').style.display = 'block'
         if(this.$$('#res_date_time_f')) this.$$('#res_date_time_f').style.display = 'block'
         if(this.$$('#res_date_time_p')) this.$$('#res_date_time_p').style.display = 'block'

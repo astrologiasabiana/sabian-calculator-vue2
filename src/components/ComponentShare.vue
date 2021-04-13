@@ -24,7 +24,6 @@ export default {
     return {
       path: this.path,
       img_query: this.img_query,
-      title: 'aaa',
     }
   },
   watch:{

@@ -70,7 +70,6 @@ export default {
         this.$$('#page_nav').classList.add("hide")
         this.$$('#page_nav').classList.remove("show")
       }
-      //else{
       else if(window.pageYOffset >= 50 && this.$$('#page_nav').classList.contains('hide')){
         this.$$('#page_nav').classList.add("show")
         this.$$('#page_nav').classList.remove("hide")
