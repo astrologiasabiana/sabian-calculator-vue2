@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -12,7 +12,7 @@
     "core-js": "^3.6.5",
     "fs": "0.0.1-security",
     "js-yaml": "^3.14.0",
-    "node-sass": "^4.14.1",
+    "sass": "^1.32.0",
     "sass-loader": "^10.0.3",
     "vue": "^2.6.11",
     "vue-cli-plugin-yaml": "^1.0.2",
